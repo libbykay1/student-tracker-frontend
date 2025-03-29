@@ -239,6 +239,9 @@ export default function StudentPage() {
       body: JSON.stringify(progress),
     });
   }, [progress, slug]);
+  useEffect(() => {
+    document.title = `${displayName} – Progress Tracker`;
+  }, [displayName]);
 
   const cycleColor = (lang, key) => {
     setProgress((prev) => {
