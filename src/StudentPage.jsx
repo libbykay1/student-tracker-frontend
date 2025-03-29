@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 
 const levels = ["Beginner-Beginner", "Beginner-Intermediate", "Beginner-Advanced", "Intermediate", "Advanced"];
+const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
 const scratchConcepts = {
     "Data Types": {
@@ -172,7 +173,7 @@ export default function StudentPage() {
     .join(" ");
 
   useEffect(() => {
-    fetch(`https://student-progress-tracker-backend.onrender.com/students/${slug}`)
+    fetch(`${API_BASE}/students/${slug}`)
       .then((res) => res.json())
       .then((data) => {
         if (data && (data.Scratch || data.Python)) {
@@ -232,7 +233,7 @@ export default function StudentPage() {
   useEffect(() => {
     if (!progress || !progress.Scratch || !progress.Python) return;
 
-    fetch(`https://student-progress-tracker-backend.onrender.com/students/${slug}`, {
+    fetch(`${API_BASE}/students/${slug}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(progress),
