@@ -5,9 +5,11 @@ function Dashboard() {
     const [rows, setRows] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const SHEET_ID = "1-ljOT7r6NoDrDEQFJqFT1IRWfCS3k_ED-GVO0ycklwo";
+    useEffect(() => {
+      document.title = "Student Tracker Dashboard"; 
+    }, []);
 
     useEffect(() => {
-      document.title = "Student Tracker Dashboard";
         const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
 
         fetch(csvUrl)
