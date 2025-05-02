@@ -6,77 +6,156 @@ const levels = ["Beginner-Beginner", "Beginner-Intermediate", "Beginner-Advanced
 const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
 const scratchConcepts = {
-    "Data Types": {
-      "Beginner-Beginner": "Number, Boolean",
-      "Beginner-Intermediate": "Lists",
-      "Beginner-Advanced": "Dynamic Lists",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  // Beginner categories
+  "Data Types": {
+    "Beginner-Beginner": "Uses variables for name/score",
+    "Beginner-Intermediate": "Uses numbers and text in logic",
+    "Beginner-Advanced": "Multiple variables in interactions",
+  },
+  "Operators": {
+    "Beginner-Beginner": "Uses + - * /",
+    "Beginner-Intermediate": "Uses > < = and/or",
+    "Beginner-Advanced": "Nested logic with operators",
+  },
+  "Control": {
+    "Beginner-Beginner": "Uses loops (forever, repeat)",
+    "Beginner-Intermediate": "Uses wait/repeat until",
+    "Beginner-Advanced": "Nested loops for timing/logic",
+  },
+  "Conditionals": {
+    "Beginner-Beginner": "Uses if block",
+    "Beginner-Intermediate": "Uses if-else block",
+    "Beginner-Advanced": "Multiple/nested if logic",
+  },
+  "Sprite Movement": {
+    "Beginner-Beginner": "Moves/glides sprite",
+    "Beginner-Intermediate": "Moves with keys/mouse",
+    "Beginner-Advanced": "Gravity, wrap, advanced motion",
+  },
+  "Input/Output": {
+    "Beginner-Beginner": "Say block or key press",
+    "Beginner-Intermediate": "Ask/answer, mouse input",
+    "Beginner-Advanced": "Dynamic responses to input",
+  },
+  "Backdrops": {
+    "Beginner-Beginner": "Changes backdrops manually",
+    "Beginner-Intermediate": "Backdrop change with events",
+    "Beginner-Advanced": "Backdrop reflects game state",
+  },
+  "Sensing": {
+    "Beginner-Beginner": "Touching or mouse down",
+    "Beginner-Intermediate": "Sensing in conditionals",
+    "Beginner-Advanced": "Sensing with logic/actions",
+  },
+  "Clones": {
+    "Beginner-Beginner": "Creates clones",
+    "Beginner-Intermediate": "Uses clones for animation",
+    "Beginner-Advanced": "Manages clones with events",
+  },
+  "Functions": {
+    "Beginner-Beginner": "Simple My Block",
+    "Beginner-Intermediate": "My Block with input",
+    "Beginner-Advanced": "Reusable logic with input",
+  },
+  "Events": {
+    "Beginner-Beginner": "When flag clicked",
+    "Beginner-Intermediate": "Broadcast/receive",
+    "Beginner-Advanced": "Multi-sprite coordination",
+  },
+  "Costumes": {
+    "Beginner-Beginner": "Manual costume change",
+    "Beginner-Intermediate": "Animates with costumes",
+    "Beginner-Advanced": "Conditional costume switch",
+  },
+  "Sound": {
+    "Beginner-Beginner": "Plays sound",
+    "Beginner-Intermediate": "Sound for feedback/story",
+    "Beginner-Advanced": "Intentional sound design",
+  },
+  "Lists": {
+    "Beginner-Beginner": "Creates list",
+    "Beginner-Intermediate": "Adds/removes list items",
+    "Beginner-Advanced": "Uses lists to track data",
+  },
+  "Debugging": {
+    "Beginner-Beginner": "Identifies problem",
+    "Beginner-Intermediate": "Tests and adjusts code",
+    "Beginner-Advanced": "Fixes bug, explains fix",
+  },
+
+  // Intermediate-only categories
+  "Advanced Logic & State Management": {
+    Intermediate: {
+      skill: "Multi-state systems, nested logic, and variable management",
+      tooltip:
+        "Sample Projects:\n• Cooking game with prep/cook/serve\n• Sports game with match/result screens\n• Arcade game with game over states",
     },
-    "Operators": {
-      "Beginner-Beginner": "Random, ><= ",
-      "Beginner-Intermediate": "And, Or, Not",
-      "Beginner-Advanced": "Text Operators",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "AI & Behavior Systems": {
+    Intermediate: {
+      skill: "Enemy AI with patrols, decisions, and adaptive behavior",
+      tooltip:
+        "Sample Projects:\n• Maze game with patrolling guards\n• Zombie chase game\n• Boss that changes attacks as damaged",
     },
-    "Control": {
-      "Beginner-Beginner": "Forever, Repeat n",
-      "Beginner-Intermediate": "Nested Loops",
-      "Beginner-Advanced": "Wait Until, Repeat Until",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "Game Systems & Mechanics": {
+    Intermediate: {
+      skill: "Scoring, cooldowns, difficulty scaling, and turn systems",
+      tooltip:
+        "Sample Projects:\n• Platformer with increasing difficulty\n• Turn-based RPG with enemy/player cycles\n• Game with timed power-ups and recharging abilities",
     },
-    "Conditionals": {
-      "Beginner-Beginner": "If/Then",
-      "Beginner-Intermediate": "If/Then/Else",
-      "Beginner-Advanced": "Nested",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "Math & Movement Patterns": {
+    Intermediate: {
+      skill: "Use of trigonometry, angles, and grid tracking",
+      tooltip:
+        "Sample Projects:\n• Helicopter orbiting target using sine/cosine\n• Puzzle game with grid-based movement\n• Shooter where projectiles aim at cursor",
     },
-    "Sprite Movement": {
-      "Beginner-Beginner": "Arrow Keys, Basic Jump",
-      "Beginner-Intermediate": "Wrap Around (x and y)",
-      "Beginner-Advanced": "Velocity, Gravity",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "Cloning & Instance Management": {
+    Intermediate: {
+      skill: "Manage clones with unique behavior and lifecycle",
+      tooltip:
+        "Sample Projects:\n• Fish tank with different clone patterns\n• Tower defense with clone waves\n• Wildlife simulation with clone birth/death",
     },
-    "Input/Output": {
-      "Beginner-Beginner": "Mouse, Keyboard",
-      "Beginner-Intermediate": "Text, Sound",
-      "Beginner-Advanced": "",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "Player Interaction & Input Logic": {
+    Intermediate: {
+      skill: "Complex controls, mouse drag, and multiplayer input",
+      tooltip:
+        "Sample Projects:\n• Double-tap dash in a fighter\n• Drag-to-snap puzzle game\n• Two-player tag game with shared controls",
     },
-    "Backdrops": {
-      "Beginner-Beginner": "Changing",
-      "Beginner-Intermediate": "",
-      "Beginner-Advanced": "Game Start/Over",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "UI & UX Design": {
+    Intermediate: {
+      skill: "Menus, feedback effects, and custom real-time UI",
+      tooltip:
+        "Sample Projects:\n• Health/stamina bar with changing colors\n• Menu system with options/start\n• Platformer with screen shake and particle hit effects",
     },
-    "Sensing": {
-      "Beginner-Beginner": "Touching Color",
-      "Beginner-Intermediate": "",
-      "Beginner-Advanced": "Distance To",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "World-Building & Level Design": {
+    Intermediate: {
+      skill: "Custom levels, checkpoints, and procedural generation",
+      tooltip:
+        "Sample Projects:\n• Level builder with drag/drop tiles\n• Platformer with save points and stage transitions\n• Random maze generator or terrain map",
     },
-    "Clones": {
-      "Beginner-Beginner": "Falling",
-      "Beginner-Intermediate": "Projectiles",
-      "Beginner-Advanced": "",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "Narrative & Dialogue Systems": {
+    Intermediate: {
+      skill: "Branching dialogue, saved progress, and cutscenes",
+      tooltip:
+        "Sample Projects:\n• RPG with conversation trees and story impact\n• Game that resumes at saved state\n• Visual novel with comic-style cutscenes",
     },
-    "Functions": {
-      "Beginner-Beginner": "",
-      "Beginner-Intermediate": "Basic",
-      "Beginner-Advanced": "With Arguments",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "Optimization & Project Architecture": {
+    Intermediate: {
+      skill: "Clean code structure and performance optimization",
+      tooltip:
+        "Sample Projects:\n• Bullet-hell game optimized for clone count\n• Modular RPG using custom blocks\n• UI system with reusable scripts and buttons",
     },
-  };
+  },
+};
+
 
   const pythonConcepts = {
     "Data Types": {
@@ -292,8 +371,12 @@ export default function StudentPage() {
         y += 7;
 
         Object.entries(conceptsByLanguage[lang]).forEach(([concept, levelsObj]) => {
-          const skill = levelsObj[level];
-          if (!skill) return;
+          const skillEntry = levelsObj[activeLevel];
+          if (!skillEntry) return null;
+
+          const skill = typeof skillEntry === "string" ? skillEntry : skillEntry.skill;
+          const tooltip = typeof skillEntry === "object" && skillEntry.tooltip ? skillEntry.tooltip : null;
+
 
           const key = `${concept}|${level}`;
           const { color = "red", sessions = 0 } = progress[lang][key] || {};
@@ -398,7 +481,10 @@ export default function StudentPage() {
                 >
                   <div>
                     <div className="font-semibold text-gray-800">{concept}</div>
-                    <div className="text-sm text-gray-500">{skill}</div>
+                    <div className="text-sm text-gray-500" title={tooltip || ""}>
+  {skill}
+</div>
+
                   </div>
                   <div className="flex items-center space-x-3">
                     <button
