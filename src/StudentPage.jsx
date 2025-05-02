@@ -468,8 +468,12 @@ export default function StudentPage() {
         <div className="space-y-4">
           {Object.entries(conceptsByLanguage[activeLanguage]).map(
             ([concept, levelsObj]) => {
-              const skill = levelsObj[activeLevel];
-              if (!skill) return null;
+              const skillEntry = levelsObj[activeLevel];
+if (!skillEntry) return null;
+
+const skill = typeof skillEntry === "string" ? skillEntry : skillEntry.skill;
+const tooltip = typeof skillEntry === "object" && skillEntry.tooltip ? skillEntry.tooltip : null;
+
               const key = `${concept}|${activeLevel}`;
               const { color, sessions } =
                 progress[activeLanguage][key] || { color: "red", sessions: 0 };
