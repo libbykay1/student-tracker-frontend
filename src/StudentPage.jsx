@@ -219,6 +219,7 @@ const pythonConcepts = {
       tooltip:
         "Sample Projects:\n• RPG with states for dialogue/combat\n• Simulation with setup → simulate → report\n• Quiz app with adaptive question flow",
     },
+  },
   "AI & Behavior Systems": {
     "Intermediate": {
       skill: "NPCs, decision trees, and adaptive behaviors",
