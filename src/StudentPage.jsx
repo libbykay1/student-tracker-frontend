@@ -157,78 +157,209 @@ const scratchConcepts = {
 };
 
 
-  const pythonConcepts = {
-    "Data Types": {
-      "Beginner-Beginner": "Int, Float",
-      "Beginner-Intermediate": "Boolean, Lists",
-      "Beginner-Advanced": "Nested Lists",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+const pythonConcepts = {
+  "Variables & Data Types": {
+    "Beginner-Beginner": "Assigns int, float, str",
+    "Beginner-Intermediate": "Converts and compares types",
+    "Beginner-Advanced": "Uses multiple types effectively",
+  },
+  "Input/Output": {
+    "Beginner-Beginner": "Uses input() and print()",
+    "Beginner-Intermediate": "Formats strings with variables",
+    "Beginner-Advanced": "Builds interactive CLI app",
+  },
+  "Operators": {
+    "Beginner-Beginner": "Uses + - * /",
+    "Beginner-Intermediate": "Uses > < == and/or",
+    "Beginner-Advanced": "Combines in expressions",
+  },
+  "Conditionals": {
+    "Beginner-Beginner": "Uses if statements",
+    "Beginner-Intermediate": "Adds elif and else",
+    "Beginner-Advanced": "Nested or complex if chains",
+  },
+  "Loops": {
+    "Beginner-Beginner": "Uses for loop with range()",
+    "Beginner-Intermediate": "Uses while loop",
+    "Beginner-Advanced": "Nested or controlled loops",
+  },
+  "Functions": {
+    "Beginner-Beginner": "Defines simple def function()",
+    "Beginner-Intermediate": "Passes arguments, returns",
+    "Beginner-Advanced": "Uses parameters effectively",
+  },
+  "Lists": {
+    "Beginner-Beginner": "Creates and accesses list",
+    "Beginner-Intermediate": "Modifies with append, pop",
+    "Beginner-Advanced": "Loops and logic with lists",
+  },
+  "Dictionaries": {
+    "Beginner-Beginner": "Creates key-value dict",
+    "Beginner-Intermediate": "Gets, sets, checks keys",
+    "Beginner-Advanced": "Nested dict or loops with dict",
+  },
+  "Strings": {
+    "Beginner-Beginner": "Prints and joins strings",
+    "Beginner-Intermediate": "Slices and formats strings",
+    "Beginner-Advanced": "Uses methods (split, find, etc.)",
+  },
+  "Classes & Objects": {
+    "Beginner-Beginner": "Defines basic class",
+    "Beginner-Intermediate": "Creates objects with __init__",
+    "Beginner-Advanced": "Adds methods and attributes",
+  },
+  "File I/O": {
+    "Beginner-Beginner": "",
+    "Beginner-Intermediate": "",
+    "Beginner-Advanced": "Processes file content logically",
+  },
+  "Advanced Logic & State Management": {
+    "Intermediate": {
+      skill: "State machines, flags, and adaptive logic",
+      tooltip:
+        "Sample Projects:\n• RPG with states for dialogue/combat\n• Simulation with setup → simulate → report\n• Quiz app with adaptive question flow",
     },
-    "Operators": {
-      "Beginner-Beginner": "Random, ><=, +-*/",
-      "Beginner-Intermediate": "And, Or, Not",
-      "Beginner-Advanced": "Text Operators",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  "AI & Behavior Systems": {
+    "Intermediate": {
+      skill: "NPCs, decision trees, and adaptive behaviors",
+      tooltip:
+        "Sample Projects:\n• Text adventure with reactive characters\n• Game with enemies scaling to player skill\n• Agent sim with hunger/rest logic",
     },
-    "Control": {
-      "Beginner-Beginner": "For Loops",
-      "Beginner-Intermediate": "While Loops, Break",
-      "Beginner-Advanced": "Nested Loops",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "Game Systems & Mechanics": {
+    "Intermediate": {
+      skill: "Health, inventory, cooldowns, and scoring",
+      tooltip:
+        "Sample Projects:\n• Turn-based game with health/items\n• Platformer with power-ups and score\n• Action game with ability cooldowns",
     },
-    "Conditionals": {
-      "Beginner-Beginner": "If/Then",
-      "Beginner-Intermediate": "If/Then/Else",
-      "Beginner-Advanced": "Nested",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "Math & Movement Patterns": {
+    "Intermediate": {
+      skill: "Coordinates, vectors, and procedural generation",
+      tooltip:
+        "Sample Projects:\n• 2D motion with trigonometry\n• Maze generator with loops and randomness\n• Orbit sim using sine/cosine waves",
     },
-    "Sprite Movement": {
-      "Beginner-Beginner": "Arrow Keys, x/y",
-      "Beginner-Intermediate": "Basic Gravity",
-      "Beginner-Advanced": "Advanced Gravity, Velocity",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "Cloning & Instance Management": {
+    "Intermediate": {
+      skill: "Object management with classes and lists",
+      tooltip:
+        "Sample Projects:\n• Game with many independent enemies\n• Traffic sim with cars using object lists\n• Battle sim with collision detection",
     },
-    "Input/Output": {
-      "Beginner-Beginner": "Mouse, Keyboard",
-      "Beginner-Intermediate": "Text, Sound",
-      "Beginner-Advanced": "Files, Other",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "Player Interaction & Input Logic": {
+    "Intermediate": {
+      skill: "Keyboard, mouse, and game input handling",
+      tooltip:
+        "Sample Projects:\n• Menu navigation by key press\n• Typing test or memory match\n• GUI with buttons/sliders",
     },
-    "Backdrops": {
-      "Beginner-Beginner": "Changing",
-      "Beginner-Intermediate": "Game Start/Over",
-      "Beginner-Advanced": "",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "UI & UX Design": {
+    "Intermediate": {
+      skill: "Responsive GUIs with layout and feedback",
+      tooltip:
+        "Sample Projects:\n• Dashboard that updates in real time\n• Login form with error highlighting\n• Quiz app with frames/grid layout",
     },
-    "Sensing": {
-      "Beginner-Beginner": "",
-      "Beginner-Intermediate": "Collision",
-      "Beginner-Advanced": "Distance To",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "World-Building & Level Design": {
+    "Intermediate": {
+      skill: "Level unlocks, editors, and progress saving",
+      tooltip:
+        "Sample Projects:\n• Puzzle game with sequential levels\n• Tile editor for custom levels\n• Game with file-based save/load",
     },
-    "Classes": {
-      "Beginner-Beginner": "Basic Spawning/moving",
-      "Beginner-Intermediate": "Projectiles",
-      "Beginner-Advanced": "Sub Classes",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "Narrative & Dialogue Systems": {
+    "Intermediate": {
+      skill: "Dialogue branching, persistence, and cutscenes",
+      tooltip:
+        "Sample Projects:\n• Story with player-driven outcomes\n• Game tracking choices across scenes\n• Cutscene engine with timed text",
     },
-    "Functions": {
-      "Beginner-Beginner": "Basic",
-      "Beginner-Intermediate": "Return, Arguments",
-      "Beginner-Advanced": "Global/Local Variables, Recursion",
-      "Intermediate": "(coming soon)",
-      "Advanced": "(coming soon)",
+  },
+  "Optimization & Project Architecture": {
+    "Intermediate": {
+      skill: "Clean structure, reusable modules, and performance",
+      tooltip:
+        "Sample Projects:\n• Modular game engine with utility modules\n• Utility library shared across scripts\n• Sim running 100s of updates/sec optimized for speed",
     },
-  };
+  },
+  "Debugging": {
+    "Intermediate": "(coming soon)",
+  },
+  "Functions & Modularity": {
+    "Intermediate": "(coming soon)",
+  },
+  "Data Structures & Algorithms": {
+    "Advanced": {
+      skill: "Effective use of lists, dicts, and algorithmic thinking",
+      tooltip:
+        "Sample Projects:\n• Student records manager using lists/dictionaries\n• Linear search and bubble sort comparison\n• Seating chart tracker using nested lists",
+    },
+  },
+  "Functions & Modularity": {
+    "Advanced": {
+      skill: "Modular program design with reusable functions",
+      tooltip:
+        "Sample Projects:\n• Temperature converter with reusable logic\n• Quiz app using parameterized functions\n• Calculator with helper modules",
+    },
+  },
+  "OOP & Abstraction": {
+    "Advanced": {
+      skill: "Object-oriented design, inheritance, and special methods",
+      tooltip:
+        "Sample Projects:\n• Pet simulator with class-based behavior\n• Vehicle sim with subclasses and super()\n• Library system using __str__ for output",
+    },
+  },
+  "File Handling & Persistence": {
+    "Advanced": {
+      skill: "Read/write to files, handle structured formats, persist state",
+      tooltip:
+        "Sample Projects:\n• Game saving high scores to a file\n• JSON-based data storage for a game\n• To-do app with persistent saved tasks",
+    },
+  },
+  "Error Handling & Debugging": {
+    "Advanced": {
+      skill: "Safe error handling, assertions, and logging",
+      tooltip:
+        "Sample Projects:\n• Safe calculator with try/except\n• Assertions in simulation code\n• API error logging to file",
+    },
+  },
+  "APIs & Web Access": {
+    "Advanced": {
+      skill: "Access and process external APIs with error handling",
+      tooltip:
+        "Sample Projects:\n• Weather app using a web API\n• Movie info fetcher with JSON parsing\n• Currency converter handling API downtime",
+    },
+  },
+  "Project Architecture": {
+    "Advanced": {
+      skill: "Modular code structure with documentation and reusability",
+      tooltip:
+        "Sample Projects:\n• Game split into UI, logic, data modules\n• Shared utility library with import/export\n• Documented mini-library using docstrings",
+    },
+  },
+  "Testing & Validation": {
+    "Advanced": {
+      skill: "Unit testing and code quality validation",
+      tooltip:
+        "Sample Projects:\n• Unittest-based testing of math utilities\n• Test suite for string handling edge cases\n• Word counter improved by test feedback",
+    },
+  },
+  "Advanced Concepts": {
+    "Advanced": {
+      skill: "Functional and recursive techniques for concise code",
+      tooltip:
+        "Sample Projects:\n• Recursive factorial and Fibonacci\n• Text summarizer using map/filter/comprehensions\n• Decorator to track function calls",
+    },
+  },
+  "Libraries": {
+    "Advanced": {
+      skill: "Use major Python libraries for data and ML",
+      tooltip:
+        "Topics:\n• NumPy, Pandas – data manipulation\n• Matplotlib, Seaborn – visualization\n• Scikit-learn, TensorFlow – machine learning",
+    },
+  },
+  }
+};
 
 
 
