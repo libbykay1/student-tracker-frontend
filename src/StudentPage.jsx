@@ -418,7 +418,6 @@ export default function StudentPage() {
       ["Python", "Beginner-Advanced"],
       ["Python", "Beginner-Intermediate"],
       ["Python", "Beginner-Beginner"],
-      ["Scratch", "Advanced"],
       ["Scratch", "Intermediate"],
       ["Scratch", "Beginner-Advanced"],
       ["Scratch", "Beginner-Intermediate"],
@@ -607,6 +606,18 @@ export default function StudentPage() {
         </div>
 
         {/* Concept List */}
+        <div className="flex justify-center gap-6 mb-4 text-sm text-gray-700">
+  <div className="flex items-center gap-2">
+    <span className="w-4 h-4 rounded-full border bg-red-500" /> Needs Work
+  </div>
+  <div className="flex items-center gap-2">
+    <span className="w-4 h-4 rounded-full border bg-yellow-400" /> In Progress
+  </div>
+  <div className="flex items-center gap-2">
+    <span className="w-4 h-4 rounded-full border bg-green-500" /> Mastered
+  </div>
+</div>
+
         <div className="space-y-4">
           {Object.entries(conceptsByLanguage[activeLanguage]).map(
             ([concept, levelsObj]) => {
