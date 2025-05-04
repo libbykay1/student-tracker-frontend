@@ -308,6 +308,13 @@ export default function StudentPage() {
     }
   }, [progress]);
 
+  useEffect(() => {
+    if (activeLanguage === "Scratch" && activeLevel === "Advanced") {
+      setActiveLevel("Beginner-Beginner");
+    }
+  }, [activeLanguage, activeLevel]);
+
+
 
   useEffect(() => {
     if (!progress || !progress.Scratch || !progress.Python) return;
@@ -337,20 +344,21 @@ export default function StudentPage() {
   };
 
   const updateSessions = (lang, key, value) => {
-    setProgress((prev) => {
-      const current = prev[lang][key] || { color: "red", sessions: 0 };
-      return {
-        ...prev,
-        [lang]: {
-          ...prev[lang],
-          [key]: {
-            color: current.color,
-            sessions: parseInt(value) || 0,
-          },
+    const current = progress[lang][key] || { color: "red", sessions: 0 };
+    const sanitized = Math.max(0, parseInt(value) || 0);
+
+    setProgress((prev) => ({
+      ...prev,
+      [lang]: {
+        ...prev[lang],
+        [key]: {
+          ...current,
+          sessions: sanitized,
         },
-      };
-    });
+      },
+    }));
   };
+
 
   const exportToPDF = (selectedLanguages) => {
     const doc = new jsPDF();
@@ -427,19 +435,22 @@ export default function StudentPage() {
 
         {/* Level Tabs */}
         <div className="flex justify-center space-x-2 mb-6 flex-wrap">
-          {levels.map((level) => (
-            <button
-              key={level}
-              onClick={() => setActiveLevel(level)}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition ${
-                activeLevel === level
-                  ? "bg-blue-500 text-white shadow"
-                  : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-              }`}
-            >
-              {level}
-            </button>
-          ))}
+        {levels
+  .filter((level) => activeLanguage !== "Scratch" || level !== "Advanced")
+  .map((level) => (
+    <button
+      key={level}
+      onClick={() => setActiveLevel(level)}
+      className={`px-3 py-1 rounded-full text-xs font-medium transition ${
+        activeLevel === level
+          ? "bg-blue-500 text-white shadow"
+          : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+      }`}
+    >
+      {level}
+    </button>
+))}
+
         </div>
 
         {/* Export Buttons */}
@@ -485,9 +496,15 @@ const tooltip = typeof skillEntry === "object" && skillEntry.tooltip ? skillEntr
                 >
                   <div>
                     <div className="font-semibold text-gray-800">{concept}</div>
-                    <div className="text-sm text-gray-500" title={tooltip || ""}>
+                    <div className="relative group text-sm text-gray-500">
   {skill}
+  {tooltip && (
+    <div className="absolute left-0 mt-1 max-w-xs z-10 hidden group-hover:block bg-white border border-gray-300 rounded p-2 shadow text-xs text-gray-700 whitespace-pre-line">
+      {tooltip}
+    </div>
+  )}
 </div>
+
 
                   </div>
                   <div className="flex items-center space-x-3">
@@ -497,13 +514,23 @@ const tooltip = typeof skillEntry === "object" && skillEntry.tooltip ? skillEntr
                       style={{ backgroundColor: color }}
                       title={`Progress: ${color}`}
                     ></button>
-                    <input
-                      type="number"
-                      min="0"
-                      value={sessions}
-                      onChange={(e) => updateSessions(activeLanguage, key, e.target.value)}
-                      className="w-16 border border-gray-300 rounded px-2 py-1 text-center text-sm"
-                    />
+                    <div className="flex items-center space-x-2">
+  <button
+    onClick={() => updateSessions(activeLanguage, key, sessions - 1)}
+    className="w-6 h-6 flex items-center justify-center rounded-full border text-sm bg-white hover:bg-gray-100"
+    disabled={sessions <= 0}
+  >
+    −
+  </button>
+  <div className="min-w-[2rem] text-center text-sm">{sessions}</div>
+  <button
+    onClick={() => updateSessions(activeLanguage, key, sessions + 1)}
+    className="w-6 h-6 flex items-center justify-center rounded-full border text-sm bg-white hover:bg-gray-100"
+  >
+    +
+  </button>
+</div>
+
                     <span className="text-sm text-gray-600">sessions</span>
                   </div>
                 </div>
