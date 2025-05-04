@@ -359,7 +359,6 @@ const pythonConcepts = {
         "Topics:\n• NumPy, Pandas – data manipulation\n• Matplotlib, Seaborn – visualization\n• Scikit-learn, TensorFlow – machine learning",
     },
   },
-  }
 };
 
 
