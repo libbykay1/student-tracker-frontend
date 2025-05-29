@@ -5,7 +5,7 @@ import jsPDF from "jspdf";
 const beginnerLevels = ["Beginner-Beginner", "Beginner-Intermediate", "Beginner-Advanced"];
 const levels = ["Beginner", "Intermediate", "Advanced"];
 const API_BASE = import.meta.env.VITE_BACKEND_URL;
-const hasInitialized = useRef(false);
+
 
 
 const scratchConcepts = {
@@ -600,6 +600,7 @@ export default function StudentPage() {
   const [progress, setProgress] = useState({ Scratch: {}, Python: {} });
   const [activeLanguage, setActiveLanguage] = useState("Scratch");
   const [activeLevel, setActiveLevel] = useState("Beginner");
+  const hasInitialized = useRef(false);
 
   const conceptsByLanguage = {
     Scratch: scratchConcepts,
