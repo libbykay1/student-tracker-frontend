@@ -1,10 +1,12 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import jsPDF from "jspdf";
 
 const beginnerLevels = ["Beginner-Beginner", "Beginner-Intermediate", "Beginner-Advanced"];
 const levels = ["Beginner", "Intermediate", "Advanced"];
 const API_BASE = import.meta.env.VITE_BACKEND_URL;
+const hasInitialized = useRef(false);
+
 
 const scratchConcepts = {
   // Beginner categories
@@ -636,37 +638,33 @@ export default function StudentPage() {
       });
   }, [slug]);
 
-  useEffect(() => {
-    if (!progress?.Scratch || !progress?.Python) return;
+useEffect(() => {
+  if (hasInitialized.current || !progress?.Scratch || !progress?.Python) return;
 
-const beginnerLevels = ["Beginner-Beginner", "Beginner-Intermediate", "Beginner-Advanced"];
+  const priorityOrder = [
+    ["Python", "Advanced"],
+    ["Python", "Intermediate"],
+    ["Python", "Beginner"],
+    ["Scratch", "Intermediate"],
+    ["Scratch", "Beginner"],
+  ];
 
-const priorityOrder = [
-  ["Python", "Advanced"],
-  ["Python", "Intermediate"],
-  ["Python", "Beginner"],
-  ["Scratch", "Intermediate"],
-  ["Scratch", "Beginner"],
-];
+  for (const [lang, level] of priorityOrder) {
+    const hasProgress = Object.entries(progress[lang]).some(([key, { color, sessions }]) => {
+      const [, lvl] = key.split("|");
+      const isMatch = level === "Beginner" ? beginnerLevels.includes(lvl) : lvl === level;
+      return isMatch && (color !== "red" || sessions > 0);
+    });
 
-for (const [lang, level] of priorityOrder) {
-  const hasProgress = Object.entries(progress[lang]).some(([key, { color, sessions }]) => {
-    const [, lvl] = key.split("|");
-
-    const isMatch =
-      level === "Beginner" ? beginnerLevels.includes(lvl) : lvl === level;
-
-    return isMatch && (color !== "red" || sessions > 0);
-  });
-
-  if (hasProgress) {
-    setActiveLanguage(lang);
-    setActiveLevel(level);
-    break;
+    if (hasProgress) {
+      setActiveLanguage(lang);
+      setActiveLevel(level);
+      hasInitialized.current = true;
+      break;
+    }
   }
-}
+}, [progress]);
 
-  }, [progress]);
 
   useEffect(() => {
     if (activeLanguage === "Scratch" && activeLevel === "Advanced") {
