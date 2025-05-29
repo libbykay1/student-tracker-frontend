@@ -2,86 +2,222 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 
-const levels = ["Beginner-Beginner", "Beginner-Intermediate", "Beginner-Advanced", "Intermediate", "Advanced"];
+const beginnerLevels = ["Beginner-Beginner", "Beginner-Intermediate", "Beginner-Advanced"];
+const levels = ["Beginner", "Intermediate", "Advanced"];
 const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
 const scratchConcepts = {
   // Beginner categories
   "Data Types": {
-    "Beginner-Beginner": "Uses variables for name/score",
-    "Beginner-Intermediate": "Uses numbers and text in logic",
-    "Beginner-Advanced": "Multiple variables in interactions",
-  },
+    "Beginner-Beginner": {
+      skill: "Number",
+      tooltip: "Uses variables for name/score",
+    },
+      "Beginner-Intermediate": {
+        skill: "Boolean",
+        tooltip: "Uses numbers and text in logic",
+      },
+        "Beginner-Advanced": {
+          skill: "Lists",
+          tooltip: "Multiple variables in interactions",
+  }
+},
   "Operators": {
-    "Beginner-Beginner": "Uses + - * /",
-    "Beginner-Intermediate": "Uses > < = and/or",
-    "Beginner-Advanced": "Nested logic with operators",
-  },
+    "Beginner-Beginner": {
+      skill: "Random, ><=",
+      tooltip: "Uses + - * /",
+    },
+      "Beginner-Intermediate": {
+        skill: "And, Or, Not, +-/*",
+        tooltip: "Uses > < = and/or",
+      },
+        "Beginner-Advanced": {
+          skill: "Text Operators",
+          tooltip: "Nested logic with operators",
+  }
+},
   "Control": {
-    "Beginner-Beginner": "Uses loops (forever, repeat)",
-    "Beginner-Intermediate": "Uses wait/repeat until",
-    "Beginner-Advanced": "Nested loops for timing/logic",
-  },
+    "Beginner-Beginner": {
+      skill: "Forever, Wait Blocks",
+      tooltip: "Uses loops (forever, repeat)",
+    },
+      "Beginner-Intermediate": {
+        skill: "Repeat Until, Wait Until",
+        tooltip: "Uses wait/repeat until",
+      },
+        "Beginner-Advanced": {
+          skill: "Nested Loops",
+          tooltip: "Nested loops for timing/logic",
+  }
+},
   "Conditionals": {
-    "Beginner-Beginner": "Uses if block",
-    "Beginner-Intermediate": "Uses if-else block",
-    "Beginner-Advanced": "Multiple/nested if logic",
-  },
+    "Beginner-Beginner": {
+      skill: "If/Then",
+      tooltip: "Uses if block",
+    },
+      "Beginner-Intermediate": {
+        skill: "If/Then/Else",
+        tooltip: "Uses if-else block",
+      },
+        "Beginner-Advanced": {
+          skill: "Nested If/Then",
+          tooltip: "Multiple/nested if logic",
+  }
+},
   "Sprite Movement": {
-    "Beginner-Beginner": "Moves/glides sprite",
-    "Beginner-Intermediate": "Moves with keys/mouse",
-    "Beginner-Advanced": "Gravity, wrap, advanced motion",
-  },
+    "Beginner-Beginner": {
+      skill: "Arrow Keys, x/y, Gliding",
+      tooltip: "Arrow Keys, x/y, Gliding",
+    },
+      "Beginner-Intermediate": {
+        skill: "Basic Gravity, x/y Wrap Around",
+        tooltip: "Basic Gravity, x/y Wrap Around",
+      },
+        "Beginner-Advanced": {
+          skill: "Advanced Gravity, Velocity, Friction",
+          tooltip: "Advanced Gravity, Velocity, Friction",
+  }
+},
   "Input/Output": {
-    "Beginner-Beginner": "Say block or key press",
-    "Beginner-Intermediate": "Ask/answer, mouse input",
-    "Beginner-Advanced": "Dynamic responses to input",
-  },
+    "Beginner-Beginner": {
+      skill: "Say, Key Press",
+      tooltip: "Say block or key press",
+    },
+      "Beginner-Intermediate": {
+        skill: "Ask & Answer, Mouse Input",
+        tooltip: "Ask/answer, mouse input",
+      },
+        "Beginner-Advanced": {
+          skill: "Dynamic responses to input",
+          tooltip: "Dynamic responses to input",
+  }
+},
   "Backdrops": {
-    "Beginner-Beginner": "Changes backdrops manually",
-    "Beginner-Intermediate": "Backdrop change with events",
-    "Beginner-Advanced": "Backdrop reflects game state",
-  },
+    "Beginner-Beginner": {
+      skill: "Switch Backdrop",
+      tooltip: "Changes backdrops manually",
+    },
+      "Beginner-Intermediate": {
+        skill: "Backdrop with events",
+        tooltip: "Backdrop change with events",
+      },
+        "Beginner-Advanced": {
+          skill: "Track Game States",
+          tooltip: "Backdrop reflects game state",
+  }
+},
   "Sensing": {
-    "Beginner-Beginner": "Touching or mouse down",
-    "Beginner-Intermediate": "Sensing in conditionals",
-    "Beginner-Advanced": "Sensing with logic/actions",
-  },
+    "Beginner-Beginner": {
+      skill: "Rouching, Mouse Down",
+      tooltip: "Touching, Mouse down",
+    },
+      "Beginner-Intermediate": {
+        skill: "Compare Values",
+        tooltip: "Sensing in conditionals",
+      },
+        "Beginner-Advanced": {
+          skill: "Dynamic Behaviors",
+          tooltip: "Dynamic Behaviors",
+  }
+},
   "Clones": {
-    "Beginner-Beginner": "Creates clones",
-    "Beginner-Intermediate": "Uses clones for animation",
-    "Beginner-Advanced": "Manages clones with events",
-  },
+    "Beginner-Beginner": {
+      skill: "Create Clone",
+      tooltip: "Creates clones",
+    },
+      "Beginner-Intermediate": {
+        skill: "Animate or Multiply",
+        tooltip: "Uses clones for projectiles, (delete)",
+      },
+        "Beginner-Advanced": {
+          skill: "Uses clones for projectiles, (delete)",
+          tooltip: "Control Clones with Logic, delete clone",
+  }
+},
   "Functions": {
-    "Beginner-Beginner": "Simple My Block",
-    "Beginner-Intermediate": "My Block with input",
-    "Beginner-Advanced": "Reusable logic with input",
-  },
+    "Beginner-Beginner": {
+      skill: "Simple Custom Block",
+      tooltip: "Simple My Block",
+    },
+      "Beginner-Intermediate": {
+        skill: "Block with Input",
+        tooltip: "My Block with input",
+      },
+        "Beginner-Advanced": {
+          skill: "Reusable Logic with Multiple Inputs",
+          tooltip: "Reusable logic with Multiple Inputs",
+  }
+},
   "Events": {
-    "Beginner-Beginner": "When flag clicked",
-    "Beginner-Intermediate": "Broadcast/receive",
-    "Beginner-Advanced": "Multi-sprite coordination",
-  },
+    "Beginner-Beginner": {
+      skill: "When flag clicked",
+      tooltip: "When flag clicked",
+    },
+      "Beginner-Intermediate": {
+        skill: "Broadcast/Receive",
+        tooltip: "Broadcast/receive",
+      },
+        "Beginner-Advanced": {
+          skill: "Coordinate Muultiple Sprites",
+          tooltip: "Multi-sprite coordination",
+  }
+},
   "Costumes": {
-    "Beginner-Beginner": "Manual costume change",
-    "Beginner-Intermediate": "Animates with costumes",
-    "Beginner-Advanced": "Conditional costume switch",
-  },
+    "Beginner-Beginner": {
+      skill: "Manual switch",
+      tooltip: "Manual costume change",
+    },
+      "Beginner-Intermediate": {
+        skill: "Costume animation",
+        tooltip: "Animates with costumes",
+      },
+        "Beginner-Advanced": {
+          skill: "Conditional switch",
+          tooltip: "Conditional costume switch",
+  }
+},
   "Sound": {
-    "Beginner-Beginner": "Plays sound",
-    "Beginner-Intermediate": "Sound for feedback/story",
-    "Beginner-Advanced": "Intentional sound design",
-  },
+    "Beginner-Beginner": {
+      skill: "Play sound",
+      tooltip: "Plays sound",
+    },
+      "Beginner-Intermediate": {
+        skill: "Feedback or Storytelling",
+        tooltip: "Sound for feedback/story",
+      },
+        "Beginner-Advanced": {
+          skill: "Strategic use",
+          tooltip: "Intentional sound design",
+  }
+},
   "Lists": {
-    "Beginner-Beginner": "Creates list",
-    "Beginner-Intermediate": "Adds/removes list items",
-    "Beginner-Advanced": "Uses lists to track data",
-  },
+    "Beginner-Beginner": {
+      skill: "-",
+      tooltip: "",
+    },
+      "Beginner-Intermediate": {
+        skill: "Add/Remove Items",
+        tooltip: "Creates list, Adds/removes list items",
+      },
+        "Beginner-Advanced": {
+          skill: "Structured Data Storage",
+          tooltip: "Uses lists to track data",
+  }
+},
   "Debugging": {
-    "Beginner-Beginner": "Identifies problem",
-    "Beginner-Intermediate": "Tests and adjusts code",
-    "Beginner-Advanced": "Fixes bug, explains fix",
-  },
+    "Beginner-Beginner": {
+      skill: "Identify Issue",
+      tooltip: "Identifies problem",
+    },
+      "Beginner-Intermediate": {
+        skill: "Test Changes",
+        tooltip: "Tests and adjusts code",
+      },
+        "Beginner-Advanced": {
+          skill: "Fix and Explain",
+          tooltip: "Fixes bug, explains fix",
+  }
+},
 
   // Intermediate-only categories
   "Advanced Logic & State Management": {
@@ -159,59 +295,150 @@ const scratchConcepts = {
 
 const pythonConcepts = {
   "Variables & Data Types": {
-    "Beginner-Beginner": "Assigns int, float, str",
-    "Beginner-Intermediate": "Converts and compares types",
-    "Beginner-Advanced": "Uses multiple types effectively",
+    "Beginner-Beginner": {
+      skill: "Assigns int, float, str",
+      tooltip: "Can assign and print basic int, float, or string values",
+    },
+    "Beginner-Intermediate": {
+      skill: "Converts and compares types",
+      tooltip: "Can convert between types and compare values correctly",
+    },
+    "Beginner-Advanced": {
+      skill: "Uses multiple types effectively",
+      tooltip: "Can combine and use multiple data types fluently",
+    },
   },
   "Input/Output": {
-    "Beginner-Beginner": "Uses input() and print()",
-    "Beginner-Intermediate": "Formats strings with variables",
-    "Beginner-Advanced": "Builds interactive CLI app",
+    "Beginner-Beginner": {
+      skill: "Uses input() and print()",
+      tooltip: "Can take user input and display output",
+    },
+    "Beginner-Intermediate": {
+      skill: "Formats strings with variables",
+      tooltip: "Can format strings with variables in output",
+    },
+    "Beginner-Advanced": {
+      skill: "Builds interactive CLI app",
+      tooltip: "Can build a command-line app that interacts with the user",
+    },
   },
   "Operators": {
-    "Beginner-Beginner": "Uses + - * /",
-    "Beginner-Intermediate": "Uses > < == and/or",
-    "Beginner-Advanced": "Combines in expressions",
+    "Beginner-Beginner": {
+      skill: "Uses + - * /",
+      tooltip: "Uses arithmetic operators correctly in expressions",
+    },
+    "Beginner-Intermediate": {
+      skill: "Uses > < == and/or",
+      tooltip: "Understands and applies comparison and logical operators",
+    },
+    "Beginner-Advanced": {
+      skill: "Combines in expressions",
+      tooltip: "Uses complex and combined expressions in logic",
+    },
   },
   "Conditionals": {
-    "Beginner-Beginner": "Uses if statements",
-    "Beginner-Intermediate": "Adds elif and else",
-    "Beginner-Advanced": "Nested or complex if chains",
+    "Beginner-Beginner": {
+      skill: "Uses if statements",
+      tooltip: "Can write simple if statements for decision-making",
+    },
+    "Beginner-Intermediate": {
+      skill: "Adds elif and else",
+      tooltip: "Adds elif and else to build multi-condition logic",
+    },
+    "Beginner-Advanced": {
+      skill: "Nested or complex if chains",
+      tooltip: "Can construct nested if-else chains for multi-layered logic",
+    },
   },
   "Loops": {
-    "Beginner-Beginner": "Uses for loop with range()",
-    "Beginner-Intermediate": "Uses while loop",
-    "Beginner-Advanced": "Nested or controlled loops",
+    "Beginner-Beginner": {
+      skill: "Uses for loop with range()",
+      tooltip: "Uses for loop to iterate over a range",
+    },
+    "Beginner-Intermediate": {
+      skill: "Uses while loop",
+      tooltip: "Uses while loop for repeated execution based on condition",
+    },
+    "Beginner-Advanced": {
+      skill: "Nested or controlled loops",
+      tooltip: "Uses nested loops or advanced loop control",
+    },
   },
   "Functions": {
-    "Beginner-Beginner": "Defines simple def function()",
-    "Beginner-Intermediate": "Passes arguments, returns",
-    "Beginner-Advanced": "Uses parameters effectively",
+    "Beginner-Beginner": {
+      skill: "Defines simple def function()",
+      tooltip: "Defines a simple function using def",
+    },
+    "Beginner-Intermediate": {
+      skill: "Passes arguments, returns",
+      tooltip: "Defines and uses parameters and return values in functions",
+    },
+    "Beginner-Advanced": {
+      skill: "Uses parameters effectively",
+      tooltip: "Creates reusable functions with clear input/output",
+    },
   },
   "Lists": {
-    "Beginner-Beginner": "Creates and accesses list",
-    "Beginner-Intermediate": "Modifies with append, pop",
-    "Beginner-Advanced": "Loops and logic with lists",
+    "Beginner-Beginner": {
+      skill: "Creates and accesses list",
+      tooltip: "Uses lists to store and access multiple items",
+    },
+    "Beginner-Intermediate": {
+      skill: "Modifies with append, pop",
+      tooltip: "Appends to lists and iterates over them",
+    },
+    "Beginner-Advanced": {
+      skill: "Loops and logic with lists",
+      tooltip: "Uses nested lists and understands mutability",
+    },
   },
   "Dictionaries": {
-    "Beginner-Beginner": "Creates key-value dict",
-    "Beginner-Intermediate": "Gets, sets, checks keys",
-    "Beginner-Advanced": "Nested dict or loops with dict",
+    "Beginner-Beginner": {
+      skill: "Creates key-value dict",
+      tooltip: "Accesses individual characters using indexing",
+    },
+    "Beginner-Intermediate": {
+      skill: "Gets, sets, checks keys",
+      tooltip: "Uses string methods like lower(), upper(), find()",
+    },
+    "Beginner-Advanced": {
+      skill: "Nested dict or loops with dict",
+      tooltip: "Combines string methods with loops or conditionals to manipulate strings",
+    },
   },
   "Strings": {
-    "Beginner-Beginner": "Prints and joins strings",
-    "Beginner-Intermediate": "Slices and formats strings",
-    "Beginner-Advanced": "Uses methods (split, find, etc.)",
+    "Beginner-Beginner": {
+      skill: "Prints and joins strings",
+      tooltip: "Writes basic programs that solve small problems",
+    },
+    "Beginner-Intermediate": {
+      skill: "Slices and formats strings",
+      tooltip: "Breaks down a problem and plans steps in code",
+    },
+    "Beginner-Advanced": {
+      skill: "Uses methods (split, find, etc.)",
+      tooltip: "Implements logic from real-world scenarios in code",
+    },
   },
   "Classes & Objects": {
-    "Beginner-Beginner": "Defines basic class",
-    "Beginner-Intermediate": "Creates objects with __init__",
-    "Beginner-Advanced": "Adds methods and attributes",
+    "Beginner-Beginner": {
+      skill: "Defines basic class",
+      tooltip: "Follows indentation rules and fixes common typos",
+    },
+    "Beginner-Intermediate": {
+      skill: "Creates objects with __init__",
+      tooltip: "Uses print debugging and syntax error messages to fix issues",
+    },
+    "Beginner-Advanced": {
+      skill: "Adds methods and attributes",
+      tooltip: "Recognizes runtime vs. syntax errors and fixes them systematically",
+    },
   },
   "File I/O": {
-    "Beginner-Beginner": "",
-    "Beginner-Intermediate": "",
-    "Beginner-Advanced": "Processes file content logically",
+    "Beginner-Advanced": {
+      skill: "Processes file content logically",
+      tooltip: "Writes clean, readable code with inline comments",
+    },
   },
   "Advanced Logic & State Management": {
     "Intermediate": {
@@ -370,7 +597,7 @@ export default function StudentPage() {
   const { slug } = useParams();
   const [progress, setProgress] = useState({ Scratch: {}, Python: {} });
   const [activeLanguage, setActiveLanguage] = useState("Scratch");
-  const [activeLevel, setActiveLevel] = useState("Beginner-Beginner");
+  const [activeLevel, setActiveLevel] = useState("Beginner");
 
   const conceptsByLanguage = {
     Scratch: scratchConcepts,
@@ -412,35 +639,38 @@ export default function StudentPage() {
   useEffect(() => {
     if (!progress?.Scratch || !progress?.Python) return;
 
-    const priorityOrder = [
-      ["Python", "Advanced"],
-      ["Python", "Intermediate"],
-      ["Python", "Beginner-Advanced"],
-      ["Python", "Beginner-Intermediate"],
-      ["Python", "Beginner-Beginner"],
-      ["Scratch", "Intermediate"],
-      ["Scratch", "Beginner-Advanced"],
-      ["Scratch", "Beginner-Intermediate"],
-      ["Scratch", "Beginner-Beginner"],
-    ];
+const beginnerLevels = ["Beginner-Beginner", "Beginner-Intermediate", "Beginner-Advanced"];
 
-    for (const [lang, level] of priorityOrder) {
-      const hasProgress = Object.entries(progress[lang]).some(
-        ([key, { color, sessions }]) =>
-          key.endsWith(`|${level}`) && (color !== "red" || sessions > 0)
-      );
+const priorityOrder = [
+  ["Python", "Advanced"],
+  ["Python", "Intermediate"],
+  ["Python", "Beginner"],
+  ["Scratch", "Intermediate"],
+  ["Scratch", "Beginner"],
+];
 
-      if (hasProgress) {
-        setActiveLanguage(lang);
-        setActiveLevel(level);
-        break;
-      }
-    }
+for (const [lang, level] of priorityOrder) {
+  const hasProgress = Object.entries(progress[lang]).some(([key, { color, sessions }]) => {
+    const [, lvl] = key.split("|");
+
+    const isMatch =
+      level === "Beginner" ? beginnerLevels.includes(lvl) : lvl === level;
+
+    return isMatch && (color !== "red" || sessions > 0);
+  });
+
+  if (hasProgress) {
+    setActiveLanguage(lang);
+    setActiveLevel(level);
+    break;
+  }
+}
+
   }, [progress]);
 
   useEffect(() => {
     if (activeLanguage === "Scratch" && activeLevel === "Advanced") {
-      setActiveLevel("Beginner-Beginner");
+      setActiveLevel("Beginner");
     }
   }, [activeLanguage, activeLevel]);
 
@@ -619,66 +849,109 @@ export default function StudentPage() {
 </div>
 
         <div className="space-y-4">
-          {Object.entries(conceptsByLanguage[activeLanguage]).map(
-            ([concept, levelsObj]) => {
-              const skillEntry = levelsObj[activeLevel];
-if (!skillEntry) return null;
+         {activeLevel === "Beginner" ? (
+  Object.entries(conceptsByLanguage[activeLanguage]).map(([concept, levelsObj]) => {
+    const isBeginnerOnly = beginnerLevels.some((lvl) => levelsObj[lvl]);
+    if (!isBeginnerOnly) return null;
 
-const skill = typeof skillEntry === "string" ? skillEntry : skillEntry.skill;
-const tooltip = typeof skillEntry === "object" && skillEntry.tooltip ? skillEntry.tooltip : null;
+    return (
+      <div key={concept} className="border p-3 rounded-md bg-gray-50">
+        <div className="font-semibold text-gray-800 mb-2">{concept}</div>
+        <div className="grid grid-cols-3 gap-4">
+          {beginnerLevels.map((lvl) => {
+            const skillEntry = levelsObj[lvl];
+            if (!skillEntry) return <div key={lvl}></div>;
 
-              const key = `${concept}|${activeLevel}`;
-              const { color, sessions } =
-                progress[activeLanguage][key] || { color: "red", sessions: 0 };
+            const key = `${concept}|${lvl}`;
+            const { color, sessions } = progress[activeLanguage][key] || { color: "red", sessions: 0 };
+            const skill = typeof skillEntry === "string" ? skillEntry : skillEntry.skill;
+            const tooltip = typeof skillEntry === "object" && skillEntry.tooltip ? skillEntry.tooltip : null;
 
-              return (
-                <div
-                  key={key}
-                  className="flex items-center justify-between border p-3 rounded-md bg-gray-50"
-                >
-                  <div>
-                    <div className="font-semibold text-gray-800">{concept}</div>
-                    <div className="relative group text-sm text-gray-500">
-  {skill}
-  {tooltip && (
-    <div className="absolute left-0 mt-1 max-w-xs z-10 hidden group-hover:block bg-white border border-gray-300 rounded p-2 shadow text-xs text-gray-700 whitespace-pre-line">
-      {tooltip}
-    </div>
-  )}
-</div>
-
-
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <button
-                      onClick={() => cycleColor(activeLanguage, key)}
-                      className="w-6 h-6 rounded-full border"
-                      style={{ backgroundColor: color }}
-                      title={`Progress: ${color}`}
-                    ></button>
-                    <div className="flex items-center space-x-2">
-  <button
-    onClick={() => updateSessions(activeLanguage, key, sessions - 1)}
-    className="w-6 h-6 flex items-center justify-center rounded-full border text-sm bg-white hover:bg-gray-100"
-    disabled={sessions <= 0}
-  >
-    −
-  </button>
-  <div className="min-w-[2rem] text-center text-sm">{sessions}</div>
-  <button
-    onClick={() => updateSessions(activeLanguage, key, sessions + 1)}
-    className="w-6 h-6 flex items-center justify-center rounded-full border text-sm bg-white hover:bg-gray-100"
-  >
-    +
-  </button>
-</div>
-
-                    <span className="text-sm text-gray-600">sessions</span>
-                  </div>
+            return (
+              <div key={lvl} className="space-y-1 text-sm">
+                <div className="font-medium">{lvl.replace("Beginner-", "")}</div>
+                <div className="relative group text-gray-600">
+                  {skill}
+                  {tooltip && (
+                    <div className="absolute left-0 mt-1 max-w-xs z-10 hidden group-hover:block bg-white border border-gray-300 rounded p-2 shadow text-xs text-gray-700 whitespace-pre-line">
+                      {tooltip}
+                    </div>
+                  )}
                 </div>
-              );
-            }
-          )}
+                <div className="flex items-center space-x-2 mt-1">
+                  <button
+                    onClick={() => cycleColor(activeLanguage, key)}
+                    className="w-5 h-5 rounded-full border"
+                    style={{ backgroundColor: color }}
+                  />
+                  <button
+                    onClick={() => updateSessions(activeLanguage, key, sessions - 1)}
+                    className="w-6 h-6 rounded-full border text-sm bg-white hover:bg-gray-100"
+                    disabled={sessions <= 0}
+                  >−</button>
+                  <div className="min-w-[2rem] text-center">{sessions}</div>
+                  <button
+                    onClick={() => updateSessions(activeLanguage, key, sessions + 1)}
+                    className="w-6 h-6 rounded-full border text-sm bg-white hover:bg-gray-100"
+                  >+</button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  })
+) : (
+  Object.entries(conceptsByLanguage[activeLanguage]).map(([concept, levelsObj]) => {
+    const skillEntry = levelsObj[activeLevel];
+    if (!skillEntry) return null;
+
+    const skill = typeof skillEntry === "string" ? skillEntry : skillEntry.skill;
+    const tooltip = typeof skillEntry === "object" && skillEntry.tooltip ? skillEntry.tooltip : null;
+
+    const key = `${concept}|${activeLevel}`;
+    const { color, sessions } = progress[activeLanguage][key] || { color: "red", sessions: 0 };
+
+    return (
+      <div key={key} className="flex items-center justify-between border p-3 rounded-md bg-gray-50">
+        <div>
+          <div className="font-semibold text-gray-800">{concept}</div>
+          <div className="relative group text-sm text-gray-500">
+            {skill}
+            {tooltip && (
+              <div className="absolute left-0 mt-1 max-w-xs z-10 hidden group-hover:block bg-white border border-gray-300 rounded p-2 shadow text-xs text-gray-700 whitespace-pre-line">
+                {tooltip}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="flex items-center space-x-3">
+          <button
+            onClick={() => cycleColor(activeLanguage, key)}
+            className="w-6 h-6 rounded-full border"
+            style={{ backgroundColor: color }}
+            title={`Progress: ${color}`}
+          />
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => updateSessions(activeLanguage, key, sessions - 1)}
+              className="w-6 h-6 flex items-center justify-center rounded-full border text-sm bg-white hover:bg-gray-100"
+              disabled={sessions <= 0}
+            >−</button>
+            <div className="min-w-[2rem] text-center text-sm">{sessions}</div>
+            <button
+              onClick={() => updateSessions(activeLanguage, key, sessions + 1)}
+              className="w-6 h-6 flex items-center justify-center rounded-full border text-sm bg-white hover:bg-gray-100"
+            >+</button>
+          </div>
+          <span className="text-sm text-gray-600">sessions</span>
+        </div>
+      </div>
+    );
+  })
+)}
+
         </div>
       </div>
     </div>
