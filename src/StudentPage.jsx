@@ -220,78 +220,200 @@ const scratchConcepts = {
           tooltip: "Fixes bug, explains fix",
   }
 },
+Intermediate: {
 
   // Intermediate-only categories
   "Advanced Logic & State Management": {
-    Intermediate: {
-      skill: "Multi-state systems, nested logic, and variable management",
-      tooltip:
-        "Sample Projects:\n• Cooking game with prep/cook/serve\n• Sports game with match/result screens\n• Arcade game with game over states",
-    },
+    SubGoals: [
+      {
+        skill: "Use multi-state systems",
+        tooltip:
+          "Mastery criteria: Correctly implements game state transitions and manages them without bugs.\nExample project idea: Create a game with multiple game states: menu, play, pause, and game over",
+      },
+      {
+        skill: "Use complex conditionals and nested logic",
+        tooltip:
+          "Mastery criteria: Can structure and debug nested conditionals with multiple outcomes.\nExample project idea: Build a mini-game where outcomes depend on multiple variables and conditions",
+      },
+      {
+        skill: "Manage global/local variables and flags",
+        tooltip:
+          "Mastery criteria: Uses flags/variables to clearly manage project-wide behaviors and modes.\nExample project idea: Design a simulation where characters behave differently based on flags",
+      },
+    ],
   },
   "AI & Behavior Systems": {
-    Intermediate: {
-      skill: "Enemy AI with patrols, decisions, and adaptive behavior",
-      tooltip:
-        "Sample Projects:\n• Maze game with patrolling guards\n• Zombie chase game\n• Boss that changes attacks as damaged",
-    },
+    SubGoals: [
+      {
+        skill: "Program patrolling or chasing enemies",
+        tooltip:
+          "Mastery criteria: Creates AI that reliably detects and reacts to players.\nExample project idea: Create a stealth game where enemies follow a path and react to the player",
+      },
+      {
+        skill: "React to player actions over time",
+        tooltip:
+          "Mastery criteria: Designs enemies or systems that change based on player performance.\nExample project idea: Develop an enemy that becomes harder as the player gets more points",
+      },
+      {
+        skill: "Use simple AI decision rules",
+        tooltip:
+          "Mastery criteria: Implements basic decision trees or rule-based behavior reliably.\nExample project idea: Make an NPC that chooses actions based on game state",
+      },
+    ],
   },
   "Game Systems & Mechanics": {
-    Intermediate: {
-      skill: "Scoring, cooldowns, difficulty scaling, and turn systems",
-      tooltip:
-        "Sample Projects:\n• Platformer with increasing difficulty\n• Turn-based RPG with enemy/player cycles\n• Game with timed power-ups and recharging abilities",
-    },
+    SubGoals: [
+      {
+        skill: "Implement health, score, and inventory systems",
+        tooltip:
+          "Mastery criteria: Tracks and updates multiple systems (score, health, inventory) simultaneously.\nExample project idea: Design an adventure game with health bar and collectable items",
+      },
+      {
+        skill: "Add cooldowns and difficulty scaling",
+        tooltip:
+          "Mastery criteria: Implements functional cooldown timers and smooth difficulty scaling.\nExample project idea: Add timed power-ups and enemies that become faster",
+      },
+      {
+        skill: "Create turn-based or time-based mechanics",
+        tooltip:
+          "Mastery criteria: Designs a complete, fair turn-based system involving multiple actors.\nExample project idea: Build a board game or battle system using turns",
+      },
+    ],
   },
   "Math & Movement Patterns": {
-    Intermediate: {
-      skill: "Use of trigonometry, angles, and grid tracking",
-      tooltip:
-        "Sample Projects:\n• Helicopter orbiting target using sine/cosine\n• Puzzle game with grid-based movement\n• Shooter where projectiles aim at cursor",
-    },
+    SubGoals: [
+      {
+        skill: "Use trigonometry for motion",
+        tooltip:
+          "Mastery criteria: Applies trigonometric logic accurately to control motion paths.\nExample project idea: Create a project where a sprite moves in a spiral or circle",
+      },
+      {
+        skill: "Track position on a grid",
+        tooltip:
+          "Mastery criteria: Successfully tracks position on a logical 2D grid and moves accordingly.\nExample project idea: Build a puzzle game with grid-based movement",
+      },
+      {
+        skill: "Use angles and direction for targeting",
+        tooltip:
+          "Mastery criteria: Uses angles and trigonometry for targeting with consistent results.\nExample project idea: Make a shooter game where projectiles aim toward the cursor",
+      },
+    ],
   },
   "Cloning & Instance Management": {
-    Intermediate: {
-      skill: "Manage clones with unique behavior and lifecycle",
-      tooltip:
-        "Sample Projects:\n• Fish tank with different clone patterns\n• Tower defense with clone waves\n• Wildlife simulation with clone birth/death",
-    },
+    SubGoals: [
+      {
+        skill: "Use clones with unique behaviors",
+        tooltip:
+          "Mastery criteria: Manages multiple clones with individual behavior and minimal bugs.\nExample project idea: Make a game where enemies spawn with different patterns",
+      },
+      {
+        skill: "Detect and respond to clone interactions",
+        tooltip:
+          "Mastery criteria: Uses sensing, loops, and logic to detect areas and apply effects.\nExample project idea: Create a tower defense game with enemy waves and area checks",
+      },
+      {
+        skill: "Manage lifecycle and data of clones",
+        tooltip:
+          "Mastery criteria: Properly tracks, resets, and recycles clones during a session.\nExample project idea: Build a simulation with multiple interacting agents",
+      },
+    ],
   },
   "Player Interaction & Input Logic": {
-    Intermediate: {
-      skill: "Complex controls, mouse drag, and multiplayer input",
-      tooltip:
-        "Sample Projects:\n• Double-tap dash in a fighter\n• Drag-to-snap puzzle game\n• Two-player tag game with shared controls",
-    },
+    SubGoals: [
+      {
+        skill: "Use complex control inputs",
+        tooltip:
+          "Mastery criteria: Implements and explains complex control patterns and user inputs.\nExample project idea: Design a game with double-tap dash or input combos",
+      },
+      {
+        skill: "Use mouse input and drag events",
+        tooltip:
+          "Mastery criteria: Uses mouse input and drag events cleanly and responsively.\nExample project idea: Make a physics-based dragging game",
+      },
+      {
+        skill: "Implement multi-player control",
+        tooltip:
+          "Mastery criteria: Allows two players to play using different control schemes.\nExample project idea: Create a local 2-player competitive or co-op game",
+      },
+    ],
   },
   "UI & UX Design": {
-    Intermediate: {
-      skill: "Menus, feedback effects, and custom real-time UI",
-      tooltip:
-        "Sample Projects:\n• Health/stamina bar with changing colors\n• Menu system with options/start\n• Platformer with screen shake and particle hit effects",
-    },
+    SubGoals: [
+      {
+        skill: "Create menus and navigation systems",
+        tooltip:
+          "Mastery criteria: Designs functional and navigable menu systems with visual clarity.\nExample project idea: Build a game with a title screen, instructions, and settings",
+      },
+      {
+        skill: "Use visual feedback for game events",
+        tooltip:
+          "Mastery criteria: Implements real-time visual/audio feedback for in-game actions.\nExample project idea: Show animations and effects when a player scores or takes damage",
+      },
+      {
+        skill: "Display real-time data with custom UI",
+        tooltip:
+          "Mastery criteria: Displays up-to-date values (score, time) with visual clarity.\nExample project idea: Design a scoreboard or health bar with custom graphics",
+      },
+    ],
   },
   "World-Building & Level Design": {
-    Intermediate: {
-      skill: "Custom levels, checkpoints, and procedural generation",
-      tooltip:
-        "Sample Projects:\n• Level builder with drag/drop tiles\n• Platformer with save points and stage transitions\n• Random maze generator or terrain map",
-    },
+    SubGoals: [
+      {
+        skill: "Allow user-generated levels",
+        tooltip:
+          "Mastery criteria: Supports creating, storing, and replaying user-designed levels.\nExample project idea: Let the player place items and design a level to play",
+      },
+      {
+        skill: "Use checkpoints and transitions",
+        tooltip:
+          "Mastery criteria: Correctly resets or restores player state at key checkpoints.\nExample project idea: Add save points and level transitions in a platformer",
+      },
+      {
+        skill: "Generate levels with procedural logic",
+        tooltip:
+          "Mastery criteria: Creates unpredictable but playable levels using random logic.\nExample project idea: Create a random terrain or maze generator",
+      },
+    ],
   },
   "Narrative & Dialogue Systems": {
-    Intermediate: {
-      skill: "Branching dialogue, saved progress, and cutscenes",
-      tooltip:
-        "Sample Projects:\n• RPG with conversation trees and story impact\n• Game that resumes at saved state\n• Visual novel with comic-style cutscenes",
-    },
+    SubGoals: [
+      {
+        skill: "Use branching dialogue",
+        tooltip:
+          "Mastery criteria: Implements dialogue that branches and remembers player choices.\nExample project idea: Create a story-based game with player choices that matter",
+      },
+      {
+        skill: "Persist story progress",
+        tooltip:
+          "Mastery criteria: Persists game state or decisions across scenes or reloads.\nExample project idea: Allow players to return to the story at their progress point",
+      },
+      {
+        skill: "Build cutscene systems",
+        tooltip:
+          "Mastery criteria: Sequences scenes and transitions to tell a story effectively.\nExample project idea: Sequence a story scene with animations and dialogue",
+      },
+    ],
   },
   "Optimization & Project Architecture": {
-    Intermediate: {
-      skill: "Clean code structure and performance optimization",
-      tooltip:
-        "Sample Projects:\n• Bullet-hell game optimized for clone count\n• Modular RPG using custom blocks\n• UI system with reusable scripts and buttons",
-    },
+    SubGoals: [
+      {
+        skill: "Organize code into reusable blocks",
+        tooltip:
+          "Mastery criteria: Creates projects using clean, modular, and readable code blocks.\nExample project idea: Refactor a project to use custom blocks for actions",
+      },
+      {
+        skill: "Maintain performance with many sprites",
+        tooltip:
+          "Mastery criteria: Minimizes lag in sprite-heavy games using techniques like clone culling.\nExample project idea: Test and optimize a clone-heavy project",
+      },
+      {
+        skill: "Structure complex projects cleanly",
+        tooltip:
+          "Mastery criteria: Separates logic for stages, players, UI, and systems effectively.\nExample project idea: Build a multi-level game with clearly separated scripts",
+      },
+    ],
   },
+}
 };
 
 
@@ -442,152 +564,325 @@ const pythonConcepts = {
       tooltip: "Writes clean, readable code with inline comments",
     },
   },
-  "Advanced Logic & State Management": {
-    "Intermediate": {
-      skill: "State machines, flags, and adaptive logic",
-      tooltip:
-        "Sample Projects:\n• RPG with states for dialogue/combat\n• Simulation with setup → simulate → report\n• Quiz app with adaptive question flow",
-    },
+  Intermediate: {
+    "Advanced Logic & State Management": {
+    "SubGoals": [
+      {
+        "skill": "Use flags, state variables, and conditional flows",
+        "tooltip": "Mastery criteria: Implements game states and transitions using boolean flags and control logic."
+      },
+      {
+        "skill": "Create systems with multi-phase logic",
+        "tooltip": "Mastery criteria: Uses sequential logic to manage project phases cleanly."
+      },
+      {
+        "skill": "Use branching paths in games or apps",
+        "tooltip": "Mastery criteria: Designs and implements multi-branch conditionals and transitions."
+      },
+
+    ]
   },
-  "AI & Behavior Systems": {
-    "Intermediate": {
-      skill: "NPCs, decision trees, and adaptive behaviors",
-      tooltip:
-        "Sample Projects:\n• Text adventure with reactive characters\n• Game with enemies scaling to player skill\n• Agent sim with hunger/rest logic",
-    },
-  },
-  "Game Systems & Mechanics": {
-    "Intermediate": {
-      skill: "Health, inventory, cooldowns, and scoring",
-      tooltip:
-        "Sample Projects:\n• Turn-based game with health/items\n• Platformer with power-ups and score\n• Action game with ability cooldowns",
-    },
-  },
-  "Math & Movement Patterns": {
-    "Intermediate": {
-      skill: "Coordinates, vectors, and procedural generation",
-      tooltip:
-        "Sample Projects:\n• 2D motion with trigonometry\n• Maze generator with loops and randomness\n• Orbit sim using sine/cosine waves",
-    },
+        "Math & Movement Patterns": {
+    "SubGoals": [
+      {
+        "skill": "Use coordinates, vectors, and angles",
+        "tooltip": "Mastery criteria: Applies geometry and math to simulate physical behavior."
+      },
+      {
+        "skill": "Generate procedural patterns or levels",
+        "tooltip": "Mastery criteria: Uses loops and random logic to generate complex structures."
+      },
+      {
+        "skill": "Simulate spiral, circular, or wave motion",
+        "tooltip": "Mastery criteria: Implements mathematical motion models using sin/cos functions."
+      }
+    ]
   },
   "Cloning & Instance Management": {
-    "Intermediate": {
-      skill: "Object management with classes and lists",
-      tooltip:
-        "Sample Projects:\n• Game with many independent enemies\n• Traffic sim with cars using object lists\n• Battle sim with collision detection",
-    },
+    "SubGoals": [
+      {
+        "skill": "Work with object-oriented class instances",
+        "tooltip": "Mastery criteria: Uses classes and object lists to manage multiple entities."
+      },
+      {
+        "skill": "Use lists to manage many objects",
+        "tooltip": "Mastery criteria: Efficiently adds, removes, and updates elements in a list."
+      },
+      {
+        "skill": "Detect collisions and proximity between instances",
+        "tooltip": "Mastery criteria: Implements position-based interaction between many objects."
+      }
+    ]
+  },
+  "AI & Behavior Systems": {
+    "SubGoals": [
+      {
+        "skill": "Simulate NPC behavior with decision trees",
+        "tooltip": "Mastery criteria: Implements decision trees to simulate AI choices."
+      },
+      {
+        "skill": "Implement adaptive difficulty or enemy scaling",
+        "tooltip": "Mastery criteria: Uses player stats to modify NPC behavior or challenge."
+      },
+      {
+        "skill": "Build agent systems using logic rules",
+        "tooltip": "Mastery criteria: Creates logical behaviors for autonomous characters."
+      }
+    ]
+  },
+   "Game Systems & Mechanics": {
+    "SubGoals": [
+      {
+        "skill": "Track resources, inventory, and status",
+        "tooltip": "Mastery criteria: Uses data structures to manage multiple game variables."
+      },
+      {
+        "skill": "Use timers and cooldown systems",
+        "tooltip": "Mastery criteria: Manages countdowns and time-based logic for game elements."
+      },
+      {
+        "skill": "Design scoring, power-ups, or level-ups",
+        "tooltip": "Mastery criteria: Implements evolving mechanics using tracked variables."
+      }
+    ]
   },
   "Player Interaction & Input Logic": {
-    "Intermediate": {
-      skill: "Keyboard, mouse, and game input handling",
-      tooltip:
-        "Sample Projects:\n• Menu navigation by key press\n• Typing test or memory match\n• GUI with buttons/sliders",
-    },
+    "SubGoals": [
+      {
+        "skill": "Capture and respond to user input",
+        "tooltip": "Mastery criteria: Reads and handles keyboard input through state control."
+      },
+      {
+        "skill": "Build interactive input-based mini-games",
+        "tooltip": "Mastery criteria: Handles sequence-sensitive input correctly and responsively."
+      },
+      {
+        "skill": "Use mouse interaction and GUI events",
+        "tooltip": "Mastery criteria: Implements mouse tracking and event response via libraries."
+      }
+    ]
   },
   "UI & UX Design": {
-    "Intermediate": {
-      skill: "Responsive GUIs with layout and feedback",
-      tooltip:
-        "Sample Projects:\n• Dashboard that updates in real time\n• Login form with error highlighting\n• Quiz app with frames/grid layout",
-    },
+    "SubGoals": [
+      {
+        "skill": "Display data and status through GUI",
+        "tooltip": "Mastery criteria: Displays changing program state visually using a GUI toolkit."
+      },
+      {
+        "skill": "Create interfaces with visual feedback",
+        "tooltip": "Mastery criteria: Provides visual feedback for user actions and outcomes."
+      },
+      {
+        "skill": "Use layout systems in GUI design",
+        "tooltip": "Mastery criteria: Organizes UI components clearly using layout managers."
+      }
+    ]
   },
   "World-Building & Level Design": {
-    "Intermediate": {
-      skill: "Level unlocks, editors, and progress saving",
-      tooltip:
-        "Sample Projects:\n• Puzzle game with sequential levels\n• Tile editor for custom levels\n• Game with file-based save/load",
-    },
+    "SubGoals": [
+      {
+        "skill": "Implement level progression and unlocks",
+        "tooltip": "Mastery criteria: Uses logic to control access and game flow."
+      },
+      {
+        "skill": "Design editable or user-generated levels",
+        "tooltip": "Mastery criteria: Implements user input for level creation and storage."
+      },
+      {
+        "skill": "Store and reload progress or level data",
+        "tooltip": "Mastery criteria: Uses file handling to store and reload structured data."
+      }
+    ]
   },
   "Narrative & Dialogue Systems": {
-    "Intermediate": {
-      skill: "Dialogue branching, persistence, and cutscenes",
-      tooltip:
-        "Sample Projects:\n• Story with player-driven outcomes\n• Game tracking choices across scenes\n• Cutscene engine with timed text",
-    },
+    "SubGoals": [
+      {
+        "skill": "Build branching dialogue using structured logic",
+        "tooltip": "Mastery criteria: Uses dictionaries or functions to manage branching paths."
+      },
+      {
+        "skill": "Persist player decisions or dialogue state",
+        "tooltip": "Mastery criteria: Stores persistent data using flags, variables, or files."
+      },
+      {
+        "skill": "Sequence events and conversations",
+        "tooltip": "Mastery criteria: Creates time-controlled outputs and dialog systems."
+      }
+    ]
   },
   "Optimization & Project Architecture": {
-    "Intermediate": {
-      skill: "Clean structure, reusable modules, and performance",
-      tooltip:
-        "Sample Projects:\n• Modular game engine with utility modules\n• Utility library shared across scripts\n• Sim running 100s of updates/sec optimized for speed",
-    },
+    "SubGoals": [
+      {
+        "skill": "Organize code into modules and packages",
+        "tooltip": "Mastery criteria: Uses clear module structure with imports and reusable logic."
+      },
+      {
+        "skill": "Use custom functions and classes for reuse",
+        "tooltip": "Mastery criteria: Creates reusable components for larger projects."
+      },
+      {
+        "skill": "Reduce redundancy and improve performance",
+        "tooltip": "Mastery criteria: Identifies bottlenecks and minimizes redundant logic."
+      }
+    ]
   },
-  "Debugging": {
-    "Intermediate": "(coming soon)",
   },
-  "Functions & Modularity": {
-    "Intermediate": "(coming soon)",
+  Advanced: {
+  "Testing & Validation": {
+    "SubGoals": [
+      {
+        "skill": "Write unit tests with unittest module",
+        "tooltip": "Mastery criteria: Creates automated tests to verify correctness."
+      },
+      {
+        "skill": "Test edge cases and invalid inputs",
+        "tooltip": "Mastery criteria: Designs comprehensive test sets with valid and invalid cases."
+      },
+      {
+        "skill": "Refactor code based on test results",
+        "tooltip": "Mastery criteria: Can diagnose and resolve issues using test outcomes."
+      }
+    ]
   },
+
+
   "Data Structures & Algorithms": {
-    "Advanced": {
-      skill: "Effective use of lists, dicts, and algorithmic thinking",
-      tooltip:
-        "Sample Projects:\n• Student records manager using lists/dictionaries\n• Linear search and bubble sort comparison\n• Seating chart tracker using nested lists",
-    },
+    "SubGoals": [
+      {
+        "skill": "Use lists, dictionaries, and tuples effectively",
+        "tooltip": "Mastery criteria: Can create, update, and access structured data in complex scenarios."
+      },
+      {
+        "skill": "Implement basic search and sort algorithms",
+        "tooltip": "Mastery criteria: Can implement and explain time complexity of common algorithms."
+      },
+      {
+        "skill": "Work with nested and multidimensional data",
+        "tooltip": "Mastery criteria: Accesses and manipulates nested data structures with precision."
+      }
+    ]
   },
   "Functions & Modularity": {
-    "Advanced": {
-      skill: "Modular program design with reusable functions",
-      tooltip:
-        "Sample Projects:\n• Temperature converter with reusable logic\n• Quiz app using parameterized functions\n• Calculator with helper modules",
-    },
-  },
-  "OOP & Abstraction": {
-    "Advanced": {
-      skill: "Object-oriented design, inheritance, and special methods",
-      tooltip:
-        "Sample Projects:\n• Pet simulator with class-based behavior\n• Vehicle sim with subclasses and super()\n• Library system using __str__ for output",
-    },
-  },
-  "File Handling & Persistence": {
-    "Advanced": {
-      skill: "Read/write to files, handle structured formats, persist state",
-      tooltip:
-        "Sample Projects:\n• Game saving high scores to a file\n• JSON-based data storage for a game\n• To-do app with persistent saved tasks",
-    },
+    "SubGoals": [
+
+      {
+        "skill": "Break down problems using custom functions",
+        "tooltip": "Mastery criteria: Uses reusable, well-scoped functions with parameters and return values."
+      },
+      {
+        "skill": "Use parameters, default values, and returns",
+        "tooltip": "Mastery criteria: Understands function signatures and scope management."
+      },
+      {
+        "skill": "Implement reusable utilities and tools",
+        "tooltip": "Mastery criteria: Uses helper functions for clarity and modular design."
+      }
+    ]
   },
   "Error Handling & Debugging": {
-    "Advanced": {
-      skill: "Safe error handling, assertions, and logging",
-      tooltip:
-        "Sample Projects:\n• Safe calculator with try/except\n• Assertions in simulation code\n• API error logging to file",
-    },
+    "SubGoals": [
+
+      {
+        "skill": "Use try/except for input and runtime errors",
+        "tooltip": "Mastery criteria: Uses multiple exception types and logical fallbacks."
+      },
+      {
+        "skill": "Implement and use assertions",
+        "tooltip": "Mastery criteria: Writes meaningful assertions to catch invalid program states."
+      },
+      {
+        "skill": "Log errors and debug output to files",
+        "tooltip": "Mastery criteria: Implements logging to assist in debugging and audits."
+      }
+    ]
   },
+
+  "OOP & Abstraction": {
+    "SubGoals": [
+      {
+        "skill": "Design and use classes with attributes and methods",
+        "tooltip": "Mastery criteria: Defines and instantiates classes with appropriate encapsulation."
+      },
+      {
+        "skill": "Use inheritance to organize related classes",
+        "tooltip": "Mastery criteria: Implements inheritance and uses super() correctly."
+      },
+      {
+        "skill": "Use __init__, __str__, and other special methods",
+        "tooltip": "Mastery criteria: Demonstrates use of dunder methods for user-friendly class design."
+      }
+    ]
+  },
+
+  "Advanced Concepts": {
+    "SubGoals": [
+      {
+        "skill": "Understand and apply recursion",
+        "tooltip": "Mastery criteria: Identifies base and recursive cases correctly."
+      },
+      {
+        "skill": "Use lambda, map, filter, and comprehension",
+        "tooltip": "Mastery criteria: Applies functional tools for compact, readable logic."
+      },
+      {
+        "skill": "Use decorators and higher-order functions",
+        "tooltip": "Mastery criteria: Demonstrates higher-order programming in real use cases."
+      }
+    ]
+  },
+
+
+
   "APIs & Web Access": {
-    "Advanced": {
-      skill: "Access and process external APIs with error handling",
-      tooltip:
-        "Sample Projects:\n• Weather app using a web API\n• Movie info fetcher with JSON parsing\n• Currency converter handling API downtime",
-    },
+    "SubGoals": [
+      {
+        "skill": "Use requests to access web APIs",
+        "tooltip": "Mastery criteria: Sends GET requests and handles basic responses."
+      },
+      {
+        "skill": "Parse and process JSON responses",
+        "tooltip": "Mastery criteria: Can iterate over JSON data and extract required information."
+      },
+      {
+        "skill": "Handle API errors and edge cases",
+        "tooltip": "Mastery criteria: Implements response status checks and fallback logic."
+      }
+    ]
+  },
+
+  "File Handling & Persistence": {
+    "SubGoals": [
+      {
+        "skill": "Read from and write to text files",
+        "tooltip": "Mastery criteria: Uses open, read, write, and with-statement correctly."
+      },
+      {
+        "skill": "Work with CSV and JSON data",
+        "tooltip": "Mastery criteria: Can parse structured file formats and handle common errors."
+      },
+      {
+        "skill": "Persist program state across sessions",
+        "tooltip": "Mastery criteria: Stores and loads persistent data accurately and safely."
+      }
+    ]
   },
   "Project Architecture": {
-    "Advanced": {
-      skill: "Modular code structure with documentation and reusability",
-      tooltip:
-        "Sample Projects:\n• Game split into UI, logic, data modules\n• Shared utility library with import/export\n• Documented mini-library using docstrings",
-    },
-  },
-  "Testing & Validation": {
-    "Advanced": {
-      skill: "Unit testing and code quality validation",
-      tooltip:
-        "Sample Projects:\n• Unittest-based testing of math utilities\n• Test suite for string handling edge cases\n• Word counter improved by test feedback",
-    },
-  },
-  "Advanced Concepts": {
-    "Advanced": {
-      skill: "Functional and recursive techniques for concise code",
-      tooltip:
-        "Sample Projects:\n• Recursive factorial and Fibonacci\n• Text summarizer using map/filter/comprehensions\n• Decorator to track function calls",
-    },
-  },
-  "Libraries": {
-    "Advanced": {
-      skill: "Use major Python libraries for data and ML",
-      tooltip:
-        "Topics:\n• NumPy, Pandas – data manipulation\n• Matplotlib, Seaborn – visualization\n• Scikit-learn, TensorFlow – machine learning",
-    },
-  },
+    "SubGoals": [
+      {
+        "skill": "Structure programs using modules",
+        "tooltip": "Mastery criteria: Organizes projects into reusable, manageable components."
+      },
+      {
+        "skill": "Use import/export across files",
+        "tooltip": "Mastery criteria: Knows how to import correctly using absolute/relative paths."
+      },
+      {
+        "skill": "Document code using comments and docstrings",
+        "tooltip": "Mastery criteria: Consistently uses documentation for clarity and collaboration."
+      }
+    ]
+  }
+}
 };
 
 
@@ -601,6 +896,7 @@ export default function StudentPage() {
   const [activeLanguage, setActiveLanguage] = useState("Scratch");
   const [activeLevel, setActiveLevel] = useState("Beginner");
   const hasInitialized = useRef(false);
+
 
   const conceptsByLanguage = {
     Scratch: scratchConcepts,
@@ -768,191 +1064,298 @@ useEffect(() => {
     doc.save(`${displayName.replace(/\s+/g, "_").toLowerCase()}_progress.pdf`);
   };
 
-  return (
-    <div className="p-6 min-h-screen bg-gray-100">
-      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
-        <h1 className="text-2xl font-bold text-center mb-6">
-          {displayName} - Student Progress
-        </h1>
-
-        {/* Language Tabs */}
-        <div className="flex justify-center space-x-4 mb-4">
-          {LANGUAGES.map((lang) => (
-            <button
-              key={lang}
-              onClick={() => setActiveLanguage(lang)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition ${
-                activeLanguage === lang
-                  ? "bg-blue-600 text-white shadow"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
-            >
-              {lang}
-            </button>
-          ))}
+ return (
+  <div className="p-6 min-h-screen bg-gray-100 overflow-x-auto">
+    <div className="w-full max-w-screen-2xl mx-auto bg-white shadow-md rounded-lg p-6">
+      {/* Top bar with title, language and level buttons, export buttons (unchanged) */}
+      <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
+        <div className="text-xl font-bold text-gray-800">{displayName}</div>
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex gap-2">
+            {LANGUAGES.map((lang) => (
+              <button
+                key={lang}
+                onClick={() => setActiveLanguage(lang)}
+                className={`px-4 py-1.5 rounded-full text-sm font-semibold transition border ${
+                  activeLanguage === lang
+                    ? "bg-blue-700 text-white shadow"
+                    : "bg-white text-blue-700 border-blue-600 hover:bg-blue-50"
+                }`}
+              >
+                {lang}
+              </button>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            {levels
+              .filter((level) => activeLanguage !== "Scratch" || level !== "Advanced")
+              .map((level) => (
+                <button
+                  key={level}
+                  onClick={() => setActiveLevel(level)}
+                  className={`px-3 py-1 rounded text-sm font-medium transition border ${
+                    activeLevel === level
+                      ? "bg-gray-700 text-white shadow"
+                      : "bg-white text-gray-700 border-gray-500 hover:bg-gray-100"
+                  }`}
+                >
+                  {level}
+                </button>
+              ))}
+          </div>
         </div>
-
-        {/* Level Tabs */}
-        <div className="flex justify-center space-x-2 mb-6 flex-wrap">
-        {levels
-  .filter((level) => activeLanguage !== "Scratch" || level !== "Advanced")
-  .map((level) => (
-    <button
-      key={level}
-      onClick={() => setActiveLevel(level)}
-      className={`px-3 py-1 rounded-full text-xs font-medium transition ${
-        activeLevel === level
-          ? "bg-blue-500 text-white shadow"
-          : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-      }`}
-    >
-      {level}
-    </button>
-))}
-
-        </div>
-
-        {/* Export Buttons */}
-        <div className="flex justify-center gap-3 mb-6">
+        <div className="flex gap-2">
           <button
             onClick={() => exportToPDF(["Scratch"])}
-            className="px-3 py-2 bg-blue-100 text-blue-800 rounded hover:bg-blue-200"
+            className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded hover:bg-blue-200"
           >
-            Export Scratch
+            Scratch PDF
           </button>
           <button
             onClick={() => exportToPDF(["Python"])}
-            className="px-3 py-2 bg-green-100 text-green-800 rounded hover:bg-green-200"
+            className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded hover:bg-green-200"
           >
-            Export Python
+            Python PDF
           </button>
           <button
             onClick={() => exportToPDF(["Scratch", "Python"])}
-            className="px-3 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+            className="px-2 py-1 text-xs bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
           >
             Export Both
           </button>
         </div>
+      </div>
 
-        {/* Concept List */}
-        <div className="flex justify-center gap-6 mb-4 text-sm text-gray-700">
-  <div className="flex items-center gap-2">
-    <span className="w-4 h-4 rounded-full border bg-red-500" /> Needs Work
-  </div>
-  <div className="flex items-center gap-2">
-    <span className="w-4 h-4 rounded-full border bg-yellow-400" /> In Progress
-  </div>
-  <div className="flex items-center gap-2">
-    <span className="w-4 h-4 rounded-full border bg-green-500" /> Mastered
+      {/* Legend for progress colors (unchanged) */}
+      <div className="flex justify-center gap-6 mb-4 text-sm text-gray-700">
+        <div className="flex items-center gap-2">
+          <span className="w-4 h-4 rounded-full border bg-red-500" /> Needs Work
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-4 h-4 rounded-full border bg-yellow-400" /> In Progress
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-4 h-4 rounded-full border bg-green-500" /> Mastered
+        </div>
+      </div>
+
+      {/* Main content: Beginner view vs Intermediate vs Advanced */}
+      <div className="space-y-4">
+        {activeLevel === "Beginner" ? (
+          /* Beginner View: Show concept and levels (Beginner, Intermediate, Advanced) */
+          <div className="space-y-2">
+            {/* Table header for Beginner view */}
+            <div className="grid grid-cols-11 gap-x-6 font-semibold text-gray-700 text-sm px-2 mb-2">
+              <div className="col-span-2">Concept</div>
+              <div className="col-span-3 text-center">Beginner</div>
+              <div className="col-span-3 text-center">Intermediate</div>
+              <div className="col-span-3 text-center">Advanced</div>
+            </div>
+            {/* List all concepts that have any defined level (Beginner/Intermediate/Advanced) */}
+            {Object.entries(conceptsByLanguage[activeLanguage]).map(([concept, levelsObj]) => {
+              const isBeginnerConcept = beginnerLevels.some((lvl) => levelsObj[lvl]);
+              if (!isBeginnerConcept) return null;
+              return (
+                <div
+                  key={concept}
+                  className="grid grid-cols-11 gap-x-6 items-center bg-gray-50 px-2 py-2 border rounded-md"
+                >
+                  <div className="col-span-2 font-medium text-gray-800 text-sm truncate">{concept}</div>
+                  {beginnerLevels.map((lvl) => {
+                    const skillEntry = levelsObj[lvl];
+                    if (!skillEntry) {
+                      return <div key={lvl} />; /* empty cell if concept not present at this level */
+                    }
+                    const key = `${concept}|${lvl}`;
+                    const { color, sessions } = progress[activeLanguage][key] || { color: "red", sessions: 0 };
+                    const skill = typeof skillEntry === "string" ? skillEntry : skillEntry.skill;
+                    const tooltip =
+                      typeof skillEntry === "object" && skillEntry.tooltip ? skillEntry.tooltip : null;
+                    return (
+                      <div key={lvl} className="col-span-3 flex items-center gap-2 text-sm text-gray-700">
+                        {/* Skill name with tooltip (if any) */}
+                        <div className="relative group">
+                          <span>{skill}</span>
+                          {tooltip && (
+                            <div className="absolute z-10 hidden group-hover:block bg-white border border-gray-300 rounded p-2 shadow text-xs text-gray-700 whitespace-pre-line w-64 top-full left-0 mt-1">
+                              {tooltip}
+                            </div>
+                          )}
+                        </div>
+                        {/* Progress color dot */}
+                        <button
+                          onClick={() => cycleColor(activeLanguage, key)}
+                          className="w-4 h-4 rounded-full border"
+                          style={{ backgroundColor: color }}
+                        />
+                        {/* Session decrement button */}
+                        <button
+                          onClick={() => updateSessions(activeLanguage, key, sessions - 1)}
+                          className="w-5 h-5 rounded-full border text-xs bg-white hover:bg-gray-100"
+                          disabled={sessions <= 0}
+                        >
+                          −
+                        </button>
+                        {/* Sessions count */}
+                        <div className="min-w-[1.5rem] text-center">{sessions}</div>
+                        {/* Session increment button */}
+                        <button
+                          onClick={() => updateSessions(activeLanguage, key, sessions + 1)}
+                          className="w-5 h-5 rounded-full border text-xs bg-white hover:bg-gray-100"
+                        >
+                          +
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        ) : activeLevel === "Intermediate" ? (
+          /* Intermediate View: Show categories and their sub-goals (3 columns) */
+          <div className="space-y-2">
+            {/* Table header for Intermediate view */}
+            <div className="grid grid-cols-11 gap-x-6 font-semibold text-gray-700 text-sm px-2 mb-2">
+              <div className="col-span-2">Category</div>
+              <div className="col-span-9 text-center">Sub Goals</div>
+
+            </div>
+            {/* List each category with up to 3 sub-goals */}
+            {Object.entries(conceptsByLanguage[activeLanguage][activeLevel] || {}).map(([category, levelsObj]) => {
+              if (!levelsObj?.SubGoals) return null;
+              return (
+                <div
+                  key={category}
+                  className="grid grid-cols-11 gap-x-6 items-start bg-gray-50 px-2 py-2 border rounded-md"
+                >
+                  <div className="col-span-2 font-bold text-gray-900 text-sm whitespace-normal break-words">
+  {category}
+</div>
+
+                  {/* Sub Goal columns */}
+                  {levelsObj.SubGoals.map((goal, idx) => {
+                    const key = `${category}-${goal.skill}`;
+                    const { color, sessions } = progress[activeLanguage][key] || { color: "red", sessions: 0 };
+                    return (
+                     <div key={idx} className="col-span-3">
+  <div className="flex items-start gap-2 text-sm text-gray-700 relative group w-full">
+    {/* Sub-goal text with tooltip */}
+    <div className="flex-1 text-wrap text-gray-800">
+      <div className="font-medium whitespace-normal">{goal.skill}</div>
+      {goal.tooltip && (
+        <div className="absolute z-10 hidden group-hover:block bg-white border border-gray-300 rounded p-2 shadow text-xs text-gray-700 whitespace-pre-line w-64 top-full left-0 mt-1">
+          {goal.tooltip}
+        </div>
+      )}
+    </div>
+
+    {/* Progress controls */}
+    <div className="flex items-center gap-1 text-xs">
+      <button
+        onClick={() => cycleColor(activeLanguage, key)}
+        className="w-4 h-4 rounded-full border"
+        style={{ backgroundColor: color }}
+        title={`Progress: ${color}`}
+      />
+      <button
+        onClick={() => updateSessions(activeLanguage, key, sessions - 1)}
+        className="w-4 h-4 flex items-center justify-center rounded-full border bg-white hover:bg-gray-100"
+        disabled={sessions <= 0}
+      >
+        −
+      </button>
+      <div className="w-5 text-center">{sessions}</div>
+      <button
+        onClick={() => updateSessions(activeLanguage, key, sessions + 1)}
+        className="w-4 h-4 flex items-center justify-center rounded-full border bg-white hover:bg-gray-100"
+      >
+        +
+      </button>
+    </div>
   </div>
 </div>
 
-        <div className="space-y-4">
-         {activeLevel === "Beginner" ? (
-  Object.entries(conceptsByLanguage[activeLanguage]).map(([concept, levelsObj]) => {
-    const isBeginnerOnly = beginnerLevels.some((lvl) => levelsObj[lvl]);
-    if (!isBeginnerOnly) return null;
-
-    return (
-      <div key={concept} className="border p-3 rounded-md bg-gray-50">
-        <div className="font-semibold text-gray-800 mb-2">{concept}</div>
-        <div className="grid grid-cols-3 gap-4">
-          {beginnerLevels.map((lvl) => {
-            const skillEntry = levelsObj[lvl];
-            if (!skillEntry) return <div key={lvl}></div>;
-
-            const key = `${concept}|${lvl}`;
-            const { color, sessions } = progress[activeLanguage][key] || { color: "red", sessions: 0 };
-            const skill = typeof skillEntry === "string" ? skillEntry : skillEntry.skill;
-            const tooltip = typeof skillEntry === "object" && skillEntry.tooltip ? skillEntry.tooltip : null;
-
-            return (
-              <div key={lvl} className="space-y-1 text-sm">
-                <div className="font-medium">{lvl.replace("Beginner-", "")}</div>
-                <div className="relative group text-gray-600">
-                  {skill}
-                  {tooltip && (
-                    <div className="absolute left-0 mt-1 max-w-xs z-10 hidden group-hover:block bg-white border border-gray-300 rounded p-2 shadow text-xs text-gray-700 whitespace-pre-line">
-                      {tooltip}
-                    </div>
-                  )}
+                    );
+                  })}
+                  {/* If fewer than 3 sub-goals, add empty columns to preserve layout */}
+                  {levelsObj.SubGoals.length < 3 &&
+                    [...Array(3 - levelsObj.SubGoals.length)].map((_, i) => (
+                      <div key={`empty-${i}`} className="col-span-3" />
+                    ))}
                 </div>
-                <div className="flex items-center space-x-2 mt-1">
-                  <button
-                    onClick={() => cycleColor(activeLanguage, key)}
-                    className="w-5 h-5 rounded-full border"
-                    style={{ backgroundColor: color }}
-                  />
-                  <button
-                    onClick={() => updateSessions(activeLanguage, key, sessions - 1)}
-                    className="w-6 h-6 rounded-full border text-sm bg-white hover:bg-gray-100"
-                    disabled={sessions <= 0}
-                  >−</button>
-                  <div className="min-w-[2rem] text-center">{sessions}</div>
-                  <button
-                    onClick={() => updateSessions(activeLanguage, key, sessions + 1)}
-                    className="w-6 h-6 rounded-full border text-sm bg-white hover:bg-gray-100"
-                  >+</button>
+              );
+            })}
+          </div>
+        ) : (
+          /* Advanced View (Python Advanced): same layout as Intermediate */
+          <div className="space-y-2">
+            {/* Table header for Advanced view */}
+            <div className="grid grid-cols-11 gap-x-6 font-semibold text-gray-700 text-sm px-2 mb-2">
+              <div className="col-span-2">Category</div>
+              <div className="col-span-9 text-center">Sub Goals</div>
+
+            </div>
+            {/* List each category with up to 3 sub-goals (same structure as Intermediate) */}
+            {Object.entries(conceptsByLanguage[activeLanguage][activeLevel] || {}).map(([category, levelsObj]) => {
+              if (!levelsObj?.SubGoals) return null;
+              return (
+                <div
+                  key={category}
+                  className="grid grid-cols-11 gap-x-6 items-start bg-gray-50 px-2 py-2 border rounded-md"
+                >
+                  <div className="col-span-2 font-medium text-gray-800 text-sm truncate">{category}</div>
+                  {levelsObj.SubGoals.map((goal, idx) => {
+                    const key = `${category}-${goal.skill}`;
+                    const { color, sessions } = progress[activeLanguage][key] || { color: "red", sessions: 0 };
+                    return (
+                      <div key={idx} className="col-span-3">
+                        <div className="flex items-start gap-2 text-sm text-gray-700 relative group w-full">
+                         <div className="flex-1 text-wrap text-gray-800">
+      <div className="font-medium whitespace-normal">{goal.skill}</div>
+      {goal.tooltip && (
+        <div className="absolute z-10 hidden group-hover:block bg-white border border-gray-300 rounded p-2 shadow text-xs text-gray-700 whitespace-pre-line w-64 top-full left-0 mt-1">
+          {goal.tooltip}
+        </div>
+      )}
+    </div>
+                          <div className="flex items-center gap-1 text-xs">
+      <button
+        onClick={() => cycleColor(activeLanguage, key)}
+        className="w-4 h-4 rounded-full border"
+        style={{ backgroundColor: color }}
+        title={`Progress: ${color}`}
+      />
+      <button
+        onClick={() => updateSessions(activeLanguage, key, sessions - 1)}
+        className="w-4 h-4 flex items-center justify-center rounded-full border bg-white hover:bg-gray-100"
+        disabled={sessions <= 0}
+      >
+        −
+      </button>
+      <div className="w-5 text-center">{sessions}</div>
+      <button
+        onClick={() => updateSessions(activeLanguage, key, sessions + 1)}
+        className="w-4 h-4 flex items-center justify-center rounded-full border bg-white hover:bg-gray-100"
+      >
+        +
+      </button>
+    </div>
+  </div>
+</div>);
+                  })}
+                  {levelsObj.SubGoals.length < 3 &&
+                    [...Array(3 - levelsObj.SubGoals.length)].map((_, i) => (
+                      <div key={`empty-${i}`} className="col-span-3" />
+                    ))}
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  })
-) : (
-  Object.entries(conceptsByLanguage[activeLanguage]).map(([concept, levelsObj]) => {
-    const skillEntry = levelsObj[activeLevel];
-    if (!skillEntry) return null;
-
-    const skill = typeof skillEntry === "string" ? skillEntry : skillEntry.skill;
-    const tooltip = typeof skillEntry === "object" && skillEntry.tooltip ? skillEntry.tooltip : null;
-
-    const key = `${concept}|${activeLevel}`;
-    const { color, sessions } = progress[activeLanguage][key] || { color: "red", sessions: 0 };
-
-    return (
-      <div key={key} className="flex items-center justify-between border p-3 rounded-md bg-gray-50">
-        <div>
-          <div className="font-semibold text-gray-800">{concept}</div>
-          <div className="relative group text-sm text-gray-500">
-            {skill}
-            {tooltip && (
-              <div className="absolute left-0 mt-1 max-w-xs z-10 hidden group-hover:block bg-white border border-gray-300 rounded p-2 shadow text-xs text-gray-700 whitespace-pre-line">
-                {tooltip}
-              </div>
-            )}
+              );
+            })}
           </div>
-        </div>
-        <div className="flex items-center space-x-3">
-          <button
-            onClick={() => cycleColor(activeLanguage, key)}
-            className="w-6 h-6 rounded-full border"
-            style={{ backgroundColor: color }}
-            title={`Progress: ${color}`}
-          />
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => updateSessions(activeLanguage, key, sessions - 1)}
-              className="w-6 h-6 flex items-center justify-center rounded-full border text-sm bg-white hover:bg-gray-100"
-              disabled={sessions <= 0}
-            >−</button>
-            <div className="min-w-[2rem] text-center text-sm">{sessions}</div>
-            <button
-              onClick={() => updateSessions(activeLanguage, key, sessions + 1)}
-              className="w-6 h-6 flex items-center justify-center rounded-full border text-sm bg-white hover:bg-gray-100"
-            >+</button>
-          </div>
-          <span className="text-sm text-gray-600">sessions</span>
-        </div>
-      </div>
-    );
-  })
-)}
-
-        </div>
+        )}
       </div>
     </div>
-  );
+  </div>
+);
+
 }
