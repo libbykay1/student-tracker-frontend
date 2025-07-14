@@ -58,7 +58,7 @@ const filteredRows = rows
                       href={`/student/${row.slug}`}
                       className="block px-4 py-2 rounded-md bg-blue-50 text-blue-800 hover:bg-blue-100 hover:text-blue-900 transition duration-150"
                     >
-                      {row[0]}
+                      {row.name}
                     </a>
                   </li>
                 ))}
