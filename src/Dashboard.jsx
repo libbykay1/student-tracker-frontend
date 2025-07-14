@@ -1,47 +1,39 @@
 import { useEffect, useState } from "react";
-import Papa from "papaparse";
+const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
 function Dashboard() {
     const [rows, setRows] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const SHEET_ID = "1-ljOT7r6NoDrDEQFJqFT1IRWfCS3k_ED-GVO0ycklwo";
-    useEffect(() => {
-      document.title = "Student Tracker Dashboard"; 
-    }, []);
 
     useEffect(() => {
-        const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
-
-        fetch(csvUrl)
-            .then((res) => res.text())
-            .then((csvText) => {
-                const parsed = Papa.parse(csvText, { header: false });
-                setRows(parsed.data);
-            })
-            .catch((error) => console.error("Error fetching sheet:", error));
+      document.title = "Student Tracker Dashboard";
     }, []);
 
-    const filteredRows = rows
-        .filter((row) => {
-            const name = row[0] || "";
-            const flag = row[1]?.toLowerCase();
-            return flag === "y" && name.toLowerCase().includes(searchTerm.toLowerCase());
-        })
-            .sort((a, b) => {
-                const nameA = a[0].toLowerCase();
-                const nameB = b[0].toLowerCase();
-                const search = searchTerm.toLowerCase();
+useEffect(() => {
+  fetch(`${API_BASE}/students`)
+        .then((res) => res.json())
+        .then(setRows)
+        .catch((err) => console.error("Failed to load students:", err));
+}, []);
 
-                const startsWithA = nameA.startsWith(search);
-                const startsWithB = nameB.startsWith(search);
 
-                if (startsWithA && !startsWithB) return -1;
-                if (!startsWithA && startsWithB) return 1;
-                return 0;
-        });
+const filteredRows = rows
+    .filter((row) => row.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort((a, b) => {
+        const nameA = a.name.toLowerCase();
+        const nameB = b.name.toLowerCase();
+        const search = searchTerm.toLowerCase();
 
-    const slugify = (name) =>
-        name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+        const startsWithA = nameA.startsWith(search);
+        const startsWithB = nameB.startsWith(search);
+
+        if (startsWithA && !startsWithB) return -1;
+        if (!startsWithA && startsWithB) return 1;
+        return 0;
+    });
+
+
+
 
     return (
         <div className="min-h-screen bg-gray-100 p-6">
@@ -63,7 +55,7 @@ function Dashboard() {
                 {filteredRows.map((row, index) => (
                   <li key={index}>
                     <a
-                      href={`/student/${slugify(row[0])}`}
+                      href={`/student/${row.slug}`}
                       className="block px-4 py-2 rounded-md bg-blue-50 text-blue-800 hover:bg-blue-100 hover:text-blue-900 transition duration-150"
                     >
                       {row[0]}
