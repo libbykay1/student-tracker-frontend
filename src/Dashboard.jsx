@@ -18,19 +18,20 @@ useEffect(() => {
 
 
 const filteredRows = rows
-    .filter((row) => row.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    .sort((a, b) => {
-        const nameA = a.name.toLowerCase();
-        const nameB = b.name.toLowerCase();
-        const search = searchTerm.toLowerCase();
+  .filter((row) => row.name && row.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  .sort((a, b) => {
+    const nameA = a.name?.toLowerCase() || "";
+    const nameB = b.name?.toLowerCase() || "";
+    const search = searchTerm.toLowerCase();
 
-        const startsWithA = nameA.startsWith(search);
-        const startsWithB = nameB.startsWith(search);
+    const startsWithA = nameA.startsWith(search);
+    const startsWithB = nameB.startsWith(search);
 
-        if (startsWithA && !startsWithB) return -1;
-        if (!startsWithA && startsWithB) return 1;
-        return 0;
-    });
+    if (startsWithA && !startsWithB) return -1;
+    if (!startsWithA && startsWithB) return 1;
+    return 0;
+  });
+
 
 
 
