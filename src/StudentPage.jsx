@@ -20,27 +20,27 @@ const scratchConcepts = {
         tooltip: "Uses numbers and text in logic",
       },
         "Beginner-Advanced": {
-          skill: "Lists",
+          skill: "Multiple Variable Interactions",
           tooltip: "Multiple variables in interactions",
   }
 },
   "Operators": {
     "Beginner-Beginner": {
       skill: "Random, ><=",
-      tooltip: "Uses + - * /",
+      tooltip: "Uses > < = and/or",
     },
       "Beginner-Intermediate": {
         skill: "And, Or, Not, +-/*",
-        tooltip: "Uses > < = and/or",
+        tooltip: "Uses logic ops + - * /",
       },
         "Beginner-Advanced": {
           skill: "Text Operators",
-          tooltip: "Nested logic with operators",
+          tooltip: "Uses text for booleans",
   }
 },
   "Control": {
     "Beginner-Beginner": {
-      skill: "Forever, Wait Blocks",
+      skill: "Forever, Repeat Blocks",
       tooltip: "Uses loops (forever, repeat)",
     },
       "Beginner-Intermediate": {
@@ -105,7 +105,7 @@ const scratchConcepts = {
       },
         "Beginner-Advanced": {
           skill: "Track Game States",
-          tooltip: "Backdrop reflects game state",
+          tooltip: "Game goes through state controlled changes (i.e. Levels)",
   }
 },
   "Sensing": {
@@ -128,12 +128,12 @@ const scratchConcepts = {
       tooltip: "Creates clones",
     },
       "Beginner-Intermediate": {
-        skill: "Animate or Multiply",
+        skill: "Uses clones for projectiles, (delete)",
         tooltip: "Uses clones for projectiles, (delete)",
       },
         "Beginner-Advanced": {
-          skill: "Uses clones for projectiles, (delete)",
-          tooltip: "Control Clones with Logic, delete clone",
+          skill: "Multi-costumed clones",
+          tooltip: "Clones create clones with different costumes",
   }
 },
   "Functions": {
@@ -212,8 +212,8 @@ const scratchConcepts = {
       tooltip: "Identifies problem",
     },
       "Beginner-Intermediate": {
-        skill: "Test Changes",
-        tooltip: "Tests and adjusts code",
+        skill: "Uses test variable to help debug",
+        tooltip: "Debugs the code with the variable",
       },
         "Beginner-Advanced": {
           skill: "Fix and Explain",

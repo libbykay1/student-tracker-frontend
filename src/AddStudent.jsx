@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 const API_BASE = import.meta.env.VITE_BACKEND_URL;
@@ -7,8 +7,10 @@ function AddStudent() {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const navigate = useNavigate();
-
-
+  const inputRef = useRef(null);
+    useEffect(() => {
+      document.title = "Add Student";
+    }, []);
 const handleSubmit = async (e) => {
   e.preventDefault();
   if (!name.trim()) {
@@ -39,6 +41,7 @@ const handleSubmit = async (e) => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
+          ref={inputRef}
             type="text"
             placeholder="Student Name"
             value={name}

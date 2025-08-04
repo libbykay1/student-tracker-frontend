@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
 function Dashboard() {
     const [rows, setRows] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const inputRef = useRef(null);
+
 
     useEffect(() => {
       document.title = "Student Tracker Dashboard";
@@ -44,6 +46,7 @@ const filteredRows = rows
             </h1>
 
             <input
+            ref={inputRef}
               type="text"
               placeholder="Search for a student..."
               value={searchTerm}
