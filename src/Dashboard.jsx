@@ -64,8 +64,16 @@ const filteredRows = rows
                   </li>
                 ))}
               </ul>
-            )}
+            )}<button
+  onClick={() => window.location.href = "/add-student"}
+  className="mb-6 px-3 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition"
+>
+  Add New Student
+</button>
           </div>
+
+
+
         </div>
       );
 
