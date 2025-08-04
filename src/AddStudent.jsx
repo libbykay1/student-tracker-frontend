@@ -10,6 +10,7 @@ function AddStudent() {
   const inputRef = useRef(null);
     useEffect(() => {
       document.title = "Add Student";
+      inputRef.current?.focus();
     }, []);
 const handleSubmit = async (e) => {
   e.preventDefault();

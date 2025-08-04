@@ -110,7 +110,7 @@ const scratchConcepts = {
 },
   "Sensing": {
     "Beginner-Beginner": {
-      skill: "Rouching, Mouse Down",
+      skill: "Touching, Mouse Down",
       tooltip: "Touching, Mouse down",
     },
       "Beginner-Intermediate": {

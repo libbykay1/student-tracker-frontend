@@ -9,6 +9,7 @@ function Dashboard() {
 
     useEffect(() => {
       document.title = "Student Tracker Dashboard";
+      inputRef.current?.focus();
     }, []);
 
 useEffect(() => {
