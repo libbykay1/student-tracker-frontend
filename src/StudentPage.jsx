@@ -160,7 +160,7 @@ const scratchConcepts = {
         tooltip: "Broadcast/receive",
       },
         "Beginner-Advanced": {
-          skill: "Coordinate Muultiple Sprites",
+          skill: "Coordinate Multiple Sprites",
           tooltip: "Multi-sprite coordination",
   }
 },

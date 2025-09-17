@@ -4,6 +4,8 @@ const API_BASE = import.meta.env.VITE_BACKEND_URL;
 function Dashboard() {
     const [rows, setRows] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const inputRef = useRef(null);
 
 
@@ -12,12 +14,22 @@ function Dashboard() {
       inputRef.current?.focus();
     }, []);
 
-useEffect(() => {
-  fetch(`${API_BASE}/students`)
-        .then((res) => res.json())
-        .then(setRows)
-        .catch((err) => console.error("Failed to load students:", err));
-}, []);
+  useEffect(() => {
+    fetch(`${API_BASE}/students`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch students");
+        return res.json();
+      })
+      .then((data) => {
+        setRows(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to load students:", err);
+        setError("Unable to connect to the backend.");
+        setLoading(false);
+      });
+  }, []);
 
 
 const filteredRows = rows
@@ -39,15 +51,21 @@ const filteredRows = rows
 
 
 
-    return (
-        <div className="min-h-screen bg-gray-100 p-6">
-          <div className="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6">
-            <h1 className="text-3xl font-bold text-blue-700 mb-6 text-center">
-              Admin Dashboard
-            </h1>
+   return (
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6">
+        <h1 className="text-3xl font-bold text-blue-700 mb-6 text-center">
+          Admin Dashboard
+        </h1>
 
+        {loading ? (
+          <p className="text-center text-gray-500">Please allow up to 1 minute for backend server to wake up...</p>
+        ) : error ? (
+          <p className="text-center text-red-600">{error}</p>
+        ) : (
+          <>
             <input
-            ref={inputRef}
+              ref={inputRef}
               type="text"
               placeholder="Search for a student..."
               value={searchTerm}
@@ -68,19 +86,21 @@ const filteredRows = rows
                   </li>
                 ))}
               </ul>
-            )}<button
-  onClick={() => window.location.href = "/add-student"}
-  className="mb-6 px-3 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition"
->
-  Add New Student
-</button>
-          </div>
+            )}
 
-
-
-        </div>
-      );
-
+            <button
+              onClick={() => (window.location.href = "/add-student")}
+              className="mt-6 px-3 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition"
+            >
+              Add New Student
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
 }
+
+
 
 export default Dashboard;
