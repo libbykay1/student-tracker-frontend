@@ -1003,8 +1003,8 @@ async function handleDelete() {
       const msg = await res.text();
       throw new Error(`Delete failed: ${res.status} ${msg}`);
     }
-    // Go back to the students list (adjust this path to your app)
-    nav("/students");
+    // Go back to the dashboard
+    nav("/");
   } catch (e) {
     alert(e.message || "Delete failed");
   }
