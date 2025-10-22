@@ -1044,7 +1044,7 @@ export default function StudentPage() {
     }));
   };
 
-  // Replace your exportToPDF with this version
+// Replace your exportToPDF with this version
 const exportToPDF = (selectedLanguages) => {
   const doc = new jsPDF();
   const lineH = 6;
@@ -1068,51 +1068,64 @@ const exportToPDF = (selectedLanguages) => {
     });
   };
 
-  // Build per-level lists for a language
+  // Build per-level lists for a language using SKILL text
   const buildLevelLists = (lang) => {
     const mastered = { Beginner: [], Intermediate: [], Advanced: [] };
     const inProgress = { Beginner: [], Intermediate: [], Advanced: [] };
 
-    // --- Beginner (3 sublevels collapse into "Beginner")
+    // --- Beginner: collapse sublevels under "Beginner" and show SKILL only
     Object.entries(conceptsByLanguage[lang]).forEach(([concept, levelsObj]) => {
-      // Skip Intermediate/Advanced objects in this pass
       if (concept === "Intermediate" || concept === "Advanced") return;
 
       beginnerLevels.forEach((subLvl) => {
         const skillEntry = levelsObj[subLvl];
         if (!skillEntry) return;
+
         const key = `${concept}|${subLvl}`;
-        const { color = "red", sessions = 0 } = (progress[lang] && progress[lang][key]) || {};
-        const label = `${concept} (${subLvl})`;
-        if (color === "green") mastered.Beginner.push(label);
-        else if (color === "yellow") inProgress.Beginner.push({ label, sessions });
+        const { color = "red", sessions = 0 } =
+          (progress[lang] && progress[lang][key]) || {};
+
+        const skill =
+          typeof skillEntry === "string" ? skillEntry : skillEntry.skill;
+
+        if (!skill) return;
+
+        if (color === "green") {
+          mastered.Beginner.push(skill);
+        } else if (color === "yellow") {
+          inProgress.Beginner.push({ label: skill, sessions });
+        }
       });
     });
 
-    // --- Helper for Intermediate/Advanced categories with SubGoals
-    const collectFromCategoryLevel = (levelName) => {
+    // --- Intermediate/Advanced categories: already have goal.skill
+    const collectFromLevel = (levelName) => {
       const lvlObj = conceptsByLanguage[lang][levelName] || {};
       Object.entries(lvlObj).forEach(([category, obj]) => {
         if (!obj?.SubGoals) return;
         obj.SubGoals.forEach((goal) => {
           const key = `${category}-${goal.skill}`;
-          const { color = "red", sessions = 0 } = (progress[lang] && progress[lang][key]) || {};
-          const label = `${category}: ${goal.skill}`;
-          if (color === "green") mastered[levelName].push(label);
-          else if (color === "yellow") inProgress[levelName].push({ label, sessions });
+          const { color = "red", sessions = 0 } =
+            (progress[lang] && progress[lang][key]) || {};
+          const skill = goal.skill;
+          if (!skill) return;
+
+          if (color === "green") {
+            mastered[levelName].push(skill);
+          } else if (color === "yellow") {
+            inProgress[levelName].push({ label: skill, sessions });
+          }
         });
       });
     };
 
-    collectFromCategoryLevel("Intermediate");
-    collectFromCategoryLevel("Advanced");
+    collectFromLevel("Intermediate");
+    collectFromLevel("Advanced");
 
     return { mastered, inProgress };
   };
 
   // Title
-  doc.setFontSize(16);
-  doc.setFont(undefined, "bold");
   addLine(`${displayName} – Student Progress`, { fontSize: 16, bold: true });
 
   selectedLanguages.forEach((lang, idx) => {
@@ -1122,28 +1135,30 @@ const exportToPDF = (selectedLanguages) => {
     const { mastered, inProgress } = buildLevelLists(lang);
 
     levels.forEach((levelName) => {
-      // Skip Scratch "Advanced" if it doesn't exist in your UI
-      if (lang === "Scratch" && levelName === "Advanced") return;
+      if (lang === "Scratch" && levelName === "Advanced") return; // your UI skip
 
       y += 2;
       addLine(levelName, { fontSize: 13, bold: true });
 
-      // Mastered
+      // Mastered (skill-only)
       addLine("Mastered:", { indent: 2, bold: true });
       if (mastered[levelName].length === 0) {
-        addLine("— None yet", { indent: 6, fontSize: 11 });
+        addLine("— None yet", { indent: 6 });
       } else {
-        mastered[levelName].forEach((item) => addLine(`• ${item}`, { indent: 6 }));
+        mastered[levelName].forEach((skill) => addLine(`• ${skill}`, { indent: 6 }));
       }
 
-      // In Progress
+      // In Progress (skill + sessions)
       y += 2;
       addLine("In Progress:", { indent: 2, bold: true });
       if (inProgress[levelName].length === 0) {
-        addLine("— None", { indent: 6, fontSize: 11 });
+        addLine("— None", { indent: 6 });
       } else {
         inProgress[levelName].forEach(({ label, sessions }) =>
-          addLine(`• ${label} — ${sessions} session${sessions === 1 ? "" : "s"}`, { indent: 6 })
+          addLine(
+            `• ${label} — ${sessions} session${sessions === 1 ? "" : "s"}`,
+            { indent: 6 }
+          )
         );
       }
 
