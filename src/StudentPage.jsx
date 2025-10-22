@@ -981,12 +981,7 @@ export default function StudentPage() {
     const { slug: newSlug } = await res.json();
 
     // If slug changed, navigate to the new route
-    if (newSlug && newSlug !== slug) {
-      nav(`/students/${newSlug}`, { replace: true });
-    } else {
-      // If slug same (rare), just refresh title
-      document.title = `Student Tracker – ${next.trim()}`;
-    }
+    nav('/');
   } catch (e) {
     alert(e.message || "Rename failed");
   }
