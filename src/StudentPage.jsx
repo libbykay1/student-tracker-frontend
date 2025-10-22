@@ -906,6 +906,10 @@ export default function StudentPage() {
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" ");
 
+  useEffect(() => {
+    document.title = `Student Tracker – ${displayName}`;
+  }, [displayName]);
+
   // Load from server (progress object)
   useEffect(() => {
     let cancelled = false;
