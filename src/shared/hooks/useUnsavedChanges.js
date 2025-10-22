@@ -1,31 +1,40 @@
-// src/shared/hooks/useUnsavedChanges.js
-import { useEffect } from "react";
-import { unstable_useBlocker as useBlocker } from "react-router"; 
+import { useEffect, useContext } from "react";
+import { UNSAFE_NavigationContext } from "react-router";
+
+/**
+ * Warns on tab close/refresh and blocks in-app navigation if `when` is true.
+ * Works across React Router v6 without relying on unstable hooks.
+ */
 export default function useUnsavedChanges(when) {
   // Warn on tab close / refresh
   useEffect(() => {
     if (!when) return;
     const handler = (e) => {
       e.preventDefault();
-      e.returnValue = ""; // required for Chrome
+      e.returnValue = ""; // required for Chrome to show a prompt
     };
     window.addEventListener("beforeunload", handler);
     return () => window.removeEventListener("beforeunload", handler);
   }, [when]);
 
-  // Block in-app navigation
-  try {
-    const blocker = useBlocker?.(when);
-    useEffect(() => {
-      if (!blocker) return; // older router without the hook
-      if (blocker.state === "blocked") {
-        const ok = window.confirm("You have unsaved changes. Leave without saving?");
-        if (ok) blocker.proceed();
-        else blocker.reset();
+  // Block in-app navigation using the router's navigator.block
+  const navContext = useContext(UNSAFE_NavigationContext);
+  const navigator = navContext?.navigator;
+
+  useEffect(() => {
+    if (!when || !navigator?.block) return;
+
+    const unblock = navigator.block((tx) => {
+      const ok = window.confirm("You have unsaved changes. Leave without saving?");
+      if (ok) {
+        // allow this transition to proceed
+        unblock();      // stop blocking further transitions
+        tx.retry();     // retry the pending transition
       }
-    }, [blocker]);
-  } catch {
-    // If your react-router version doesn't expose unstable_useBlocker,
-    // we silently skip in-app blocking; the beforeunload warning still works.
-  }
+      // else: do nothing, stay on the page
+    });
+
+    return unblock;
+  }, [navigator, when]);
 }
+
