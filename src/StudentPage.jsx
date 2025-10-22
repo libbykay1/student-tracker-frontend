@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import jsPDF from "jspdf";
-import useUnsavedChanges from "@/shared/hooks/useUnsavedChanges";
-import { stableStringify } from "@/shared/utils/stableStringify";
+import useUnsavedChanges from "./shared/hooks/useUnsavedChanges";
+import { stableStringify } from "./shared/utils/stableStringify";
 
 const beginnerLevels = ["Beginner-Beginner", "Beginner-Intermediate", "Beginner-Advanced"];
 const levels = ["Beginner", "Intermediate", "Advanced"];
