@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import jsPDF from "jspdf";
 import useUnsavedChanges from "./shared/hooks/useUnsavedChanges";
@@ -7,6 +7,7 @@ import { stableStringify } from "./shared/utils/stableStringify";
 const beginnerLevels = ["Beginner-Beginner", "Beginner-Intermediate", "Beginner-Advanced"];
 const levels = ["Beginner", "Intermediate", "Advanced"];
 const API_BASE = import.meta.env.VITE_BACKEND_URL;
+const nav = useNavigate();
 
 const scratchConcepts = {
   // Beginner categories
@@ -899,6 +900,7 @@ export default function StudentPage() {
   const [activeLevel, setActiveLevel] = useState("Beginner");
   const hasInitialized = useRef(false);
 
+
   const conceptsByLanguage = { Scratch: scratchConcepts, Python: pythonConcepts };
 
   const displayName = slug
@@ -952,6 +954,67 @@ export default function StudentPage() {
 
   // Warn on leave if dirty
   useUnsavedChanges(!!dirty);
+
+  async function handleRename() {
+  // If unsaved, offer to save first
+  if (dirty) {
+    const saveFirst = window.confirm("You have unsaved changes. Save before renaming?");
+    if (saveFirst) {
+      await handleSave(); // use your existing save
+    }
+  }
+
+  const current = displayName;
+  const next = window.prompt("Enter new student name:", current);
+  if (!next || next.trim() === "" || next.trim() === current) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/students/${slug}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: next.trim() }),
+    });
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(`Rename failed: ${res.status} ${msg}`);
+    }
+    const { slug: newSlug } = await res.json();
+
+    // If slug changed, navigate to the new route
+    if (newSlug && newSlug !== slug) {
+      nav(`/students/${newSlug}`, { replace: true });
+    } else {
+      // If slug same (rare), just refresh title
+      document.title = `Student Tracker – ${next.trim()}`;
+    }
+  } catch (e) {
+    alert(e.message || "Rename failed");
+  }
+}
+
+async function handleDelete() {
+  if (dirty) {
+    const proceed = window.confirm(
+      "You have unsaved changes that will be lost. Continue and delete this student?"
+    );
+    if (!proceed) return;
+  }
+  const sure = window.confirm("Permanently delete this student?");
+  if (!sure) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/students/${slug}`, { method: "DELETE" });
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(`Delete failed: ${res.status} ${msg}`);
+    }
+    // Go back to the students list (adjust this path to your app)
+    nav("/students");
+  } catch (e) {
+    alert(e.message || "Delete failed");
+  }
+}
+
 
   // Optional: ⌘S / Ctrl+S to save
   useEffect(() => {
@@ -1482,7 +1545,25 @@ const exportToPDF = (selectedLanguages) => {
           </div>
         )}
       </div>
-    </div>
+    </div>{/* Footer actions */}
+<div className="mt-8 flex flex-wrap items-center justify-end gap-3">
+  <button
+    onClick={handleRename}
+    className="px-3 py-1.5 text-sm rounded border border-blue-600 text-blue-700 bg-white hover:bg-blue-50"
+    title="Change the student's display name (and URL slug)"
+  >
+    Edit Name
+  </button>
+
+  <button
+    onClick={handleDelete}
+    className="px-3 py-1.5 text-sm rounded border border-red-600 text-red-700 bg-white hover:bg-red-50"
+    title="Delete this student"
+  >
+    Delete Student
+  </button>
+</div>
+
   </div>
 );
 
