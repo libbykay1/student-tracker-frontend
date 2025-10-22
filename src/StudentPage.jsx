@@ -1545,24 +1545,7 @@ const exportToPDF = (selectedLanguages) => {
           </div>
         )}
       </div>
-    </div>{/* Footer actions */}
-<div className="mt-8 flex flex-wrap items-center justify-end gap-3">
-  <button
-    onClick={handleRename}
-    className="px-3 py-1.5 text-sm rounded border border-blue-600 text-blue-700 bg-white hover:bg-blue-50"
-    title="Change the student's display name (and URL slug)"
-  >
-    Edit Name
-  </button>
-
-  <button
-    onClick={handleDelete}
-    className="px-3 py-1.5 text-sm rounded border border-red-600 text-red-700 bg-white hover:bg-red-50"
-    title="Delete this student"
-  >
-    Delete Student
-  </button>
-</div>
+    </div>
 
   </div>
 );
