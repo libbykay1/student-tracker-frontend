@@ -7,7 +7,6 @@ import { stableStringify } from "./shared/utils/stableStringify";
 const beginnerLevels = ["Beginner-Beginner", "Beginner-Intermediate", "Beginner-Advanced"];
 const levels = ["Beginner", "Intermediate", "Advanced"];
 const API_BASE = import.meta.env.VITE_BACKEND_URL;
-const nav = useNavigate();
 
 const scratchConcepts = {
   // Beginner categories
@@ -899,6 +898,7 @@ export default function StudentPage() {
   const [activeLanguage, setActiveLanguage] = useState("Scratch");
   const [activeLevel, setActiveLevel] = useState("Beginner");
   const hasInitialized = useRef(false);
+  const nav = useNavigate();
 
 
   const conceptsByLanguage = { Scratch: scratchConcepts, Python: pythonConcepts };
@@ -1421,8 +1421,8 @@ const exportToPDF = (selectedLanguages) => {
                   className="grid grid-cols-11 gap-x-6 items-start bg-gray-50 px-2 py-2 border rounded-md"
                 >
                   <div className="col-span-2 font-bold text-gray-900 text-sm whitespace-normal break-words">
-  {category}
-</div>
+                    {category}
+                  </div>
 
                   {/* Sub Goal columns */}
                   {levelsObj.SubGoals.map((goal, idx) => {
@@ -1430,42 +1430,42 @@ const exportToPDF = (selectedLanguages) => {
                     const { color, sessions } = progress[activeLanguage][key] || { color: "red", sessions: 0 };
                     return (
                      <div key={idx} className="col-span-3">
-  <div className="flex items-start gap-2 text-sm text-gray-700 relative group w-full">
-    {/* Sub-goal text with tooltip */}
-    <div className="flex-1 text-wrap text-gray-800">
-      <div className="font-medium whitespace-normal">{goal.skill}</div>
-      {goal.tooltip && (
-        <div className="absolute z-10 hidden group-hover:block bg-white border border-gray-300 rounded p-2 shadow text-xs text-gray-700 whitespace-pre-line w-64 top-full left-0 mt-1">
-          {goal.tooltip}
-        </div>
-      )}
-    </div>
+                      <div className="flex items-start gap-2 text-sm text-gray-700 relative group w-full">
+                        {/* Sub-goal text with tooltip */}
+                        <div className="flex-1 text-wrap text-gray-800">
+                          <div className="font-medium whitespace-normal">{goal.skill}</div>
+                          {goal.tooltip && (
+                            <div className="absolute z-10 hidden group-hover:block bg-white border border-gray-300 rounded p-2 shadow text-xs text-gray-700 whitespace-pre-line w-64 top-full left-0 mt-1">
+                              {goal.tooltip}
+                            </div>
+                          )}
+                        </div>
 
-    {/* Progress controls */}
-    <div className="flex items-center gap-1 text-xs">
-      <button
-        onClick={() => cycleColor(activeLanguage, key)}
-        className="w-4 h-4 rounded-full border"
-        style={{ backgroundColor: color }}
-        title={`Progress: ${color}`}
-      />
-      <button
-        onClick={() => updateSessions(activeLanguage, key, sessions - 1)}
-        className="w-4 h-4 flex items-center justify-center rounded-full border bg-white hover:bg-gray-100"
-        disabled={sessions <= 0}
-      >
-        −
-      </button>
-      <div className="w-5 text-center">{sessions}</div>
-      <button
-        onClick={() => updateSessions(activeLanguage, key, sessions + 1)}
-        className="w-4 h-4 flex items-center justify-center rounded-full border bg-white hover:bg-gray-100"
-      >
-        +
-      </button>
-    </div>
-  </div>
-</div>
+                        {/* Progress controls */}
+                        <div className="flex items-center gap-1 text-xs">
+                          <button
+                            onClick={() => cycleColor(activeLanguage, key)}
+                            className="w-4 h-4 rounded-full border"
+                            style={{ backgroundColor: color }}
+                            title={`Progress: ${color}`}
+                          />
+                          <button
+                            onClick={() => updateSessions(activeLanguage, key, sessions - 1)}
+                            className="w-4 h-4 flex items-center justify-center rounded-full border bg-white hover:bg-gray-100"
+                            disabled={sessions <= 0}
+                          >
+                            −
+                          </button>
+                          <div className="w-5 text-center">{sessions}</div>
+                          <button
+                            onClick={() => updateSessions(activeLanguage, key, sessions + 1)}
+                            className="w-4 h-4 flex items-center justify-center rounded-full border bg-white hover:bg-gray-100"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    </div>
 
                     );
                   })}
@@ -1546,6 +1546,24 @@ const exportToPDF = (selectedLanguages) => {
         )}
       </div>
     </div>
+{/* Footer actions */}
+<div className="mt-8 flex flex-wrap items-center justify-end gap-3">
+  <button
+    onClick={handleRename}
+    className="px-3 py-1.5 text-sm rounded border border-blue-600 text-blue-700 bg-white hover:bg-blue-50"
+    title="Change the student's display name (and URL slug)"
+  >
+    Edit Name
+  </button>
+
+  <button
+    onClick={handleDelete}
+    className="px-3 py-1.5 text-sm rounded border border-red-600 text-red-700 bg-white hover:bg-red-50"
+    title="Delete this student"
+  >
+    Delete Student
+  </button>
+</div>
 
   </div>
 );
