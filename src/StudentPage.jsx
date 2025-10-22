@@ -1044,36 +1044,117 @@ export default function StudentPage() {
     }));
   };
 
-  const exportToPDF = (selectedLanguages) => {
-    const doc = new jsPDF();
-    let y = 20;
-    doc.setFontSize(16);
-    doc.text(`${displayName} – Student Progress`, 14, y);
-    y += 10;
-    selectedLanguages.forEach((lang) => {
-      doc.setFontSize(14);
-      doc.text(lang, 14, y);
-      y += 8;
-      levels.forEach((level) => {
-        doc.setFontSize(13);
-        doc.text(level, 14, y);
-        y += 7;
-        Object.entries(conceptsByLanguage[lang]).forEach(([concept, levelsObj]) => {
-          const skillEntry = levelsObj[activeLevel];
-          if (!skillEntry) return null;
-          const skill = typeof skillEntry === "string" ? skillEntry : skillEntry.skill;
-          const key = `${concept}|${level}`;
-          const { color = "red", sessions = 0 } = progress[lang][key] || {};
-          doc.setFontSize(11);
-          doc.text(`• ${concept}: ${skill} — Progress: ${color}, Sessions: ${sessions}`, 16, y);
-          y += 6;
-          if (y > 270) { doc.addPage(); y = 20; }
-        });
-        y += 4;
+  // Replace your exportToPDF with this version
+const exportToPDF = (selectedLanguages) => {
+  const doc = new jsPDF();
+  const lineH = 6;
+  const pageTop = 20;
+  const pageBottom = 280;
+  let y = pageTop;
+
+  const addLine = (text, opts = {}) => {
+    const { indent = 0, fontSize = 11, bold = false } = opts;
+    doc.setFontSize(fontSize);
+    doc.setFont(undefined, bold ? "bold" : "normal");
+    const maxWidth = 180 - indent;
+    const lines = doc.splitTextToSize(text, maxWidth);
+    lines.forEach((ln) => {
+      if (y > pageBottom) {
+        doc.addPage();
+        y = pageTop;
+      }
+      doc.text(14 + indent, y, ln);
+      y += lineH;
+    });
+  };
+
+  // Build per-level lists for a language
+  const buildLevelLists = (lang) => {
+    const mastered = { Beginner: [], Intermediate: [], Advanced: [] };
+    const inProgress = { Beginner: [], Intermediate: [], Advanced: [] };
+
+    // --- Beginner (3 sublevels collapse into "Beginner")
+    Object.entries(conceptsByLanguage[lang]).forEach(([concept, levelsObj]) => {
+      // Skip Intermediate/Advanced objects in this pass
+      if (concept === "Intermediate" || concept === "Advanced") return;
+
+      beginnerLevels.forEach((subLvl) => {
+        const skillEntry = levelsObj[subLvl];
+        if (!skillEntry) return;
+        const key = `${concept}|${subLvl}`;
+        const { color = "red", sessions = 0 } = (progress[lang] && progress[lang][key]) || {};
+        const label = `${concept} (${subLvl})`;
+        if (color === "green") mastered.Beginner.push(label);
+        else if (color === "yellow") inProgress.Beginner.push({ label, sessions });
       });
     });
-    doc.save(`${displayName.replace(/\s+/g, "_").toLowerCase()}_progress.pdf`);
+
+    // --- Helper for Intermediate/Advanced categories with SubGoals
+    const collectFromCategoryLevel = (levelName) => {
+      const lvlObj = conceptsByLanguage[lang][levelName] || {};
+      Object.entries(lvlObj).forEach(([category, obj]) => {
+        if (!obj?.SubGoals) return;
+        obj.SubGoals.forEach((goal) => {
+          const key = `${category}-${goal.skill}`;
+          const { color = "red", sessions = 0 } = (progress[lang] && progress[lang][key]) || {};
+          const label = `${category}: ${goal.skill}`;
+          if (color === "green") mastered[levelName].push(label);
+          else if (color === "yellow") inProgress[levelName].push({ label, sessions });
+        });
+      });
+    };
+
+    collectFromCategoryLevel("Intermediate");
+    collectFromCategoryLevel("Advanced");
+
+    return { mastered, inProgress };
   };
+
+  // Title
+  doc.setFontSize(16);
+  doc.setFont(undefined, "bold");
+  addLine(`${displayName} – Student Progress`, { fontSize: 16, bold: true });
+
+  selectedLanguages.forEach((lang, idx) => {
+    if (idx > 0) y += 4;
+    addLine(lang, { fontSize: 14, bold: true });
+
+    const { mastered, inProgress } = buildLevelLists(lang);
+
+    levels.forEach((levelName) => {
+      // Skip Scratch "Advanced" if it doesn't exist in your UI
+      if (lang === "Scratch" && levelName === "Advanced") return;
+
+      y += 2;
+      addLine(levelName, { fontSize: 13, bold: true });
+
+      // Mastered
+      addLine("Mastered:", { indent: 2, bold: true });
+      if (mastered[levelName].length === 0) {
+        addLine("— None yet", { indent: 6, fontSize: 11 });
+      } else {
+        mastered[levelName].forEach((item) => addLine(`• ${item}`, { indent: 6 }));
+      }
+
+      // In Progress
+      y += 2;
+      addLine("In Progress:", { indent: 2, bold: true });
+      if (inProgress[levelName].length === 0) {
+        addLine("— None", { indent: 6, fontSize: 11 });
+      } else {
+        inProgress[levelName].forEach(({ label, sessions }) =>
+          addLine(`• ${label} — ${sessions} session${sessions === 1 ? "" : "s"}`, { indent: 6 })
+        );
+      }
+
+      y += 3;
+    });
+  });
+
+  const fileBase = displayName.replace(/\s+/g, "_").toLowerCase();
+  doc.save(`${fileBase}_progress_summary.pdf`);
+};
+
 
   return (
     <div className="p-6 min-h-screen bg-gray-100 overflow-x-auto">
