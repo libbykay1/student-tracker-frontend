@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import jsPDF from "jspdf";
+import useUnsavedChanges from "@/shared/hooks/useUnsavedChanges";
+import { stableStringify } from "@/shared/utils/stableStringify";
 
 const beginnerLevels = ["Beginner-Beginner", "Beginner-Intermediate", "Beginner-Advanced"];
 const levels = ["Beginner", "Intermediate", "Advanced"];
 const API_BASE = import.meta.env.VITE_BACKEND_URL;
-
-
 
 const scratchConcepts = {
   // Beginner categories
@@ -893,75 +893,100 @@ const LANGUAGES = ["Scratch", "Python"];
 export default function StudentPage() {
   const { slug } = useParams();
   const [progress, setProgress] = useState({ Scratch: {}, Python: {} });
+  const [initialSnapshot, setInitialSnapshot] = useState(null);   // NEW baseline
+  const [saving, setSaving] = useState(false);                    // NEW saving state
   const [activeLanguage, setActiveLanguage] = useState("Scratch");
   const [activeLevel, setActiveLevel] = useState("Beginner");
   const hasInitialized = useRef(false);
 
-
-  const conceptsByLanguage = {
-    Scratch: scratchConcepts,
-    Python: pythonConcepts,
-  };
+  const conceptsByLanguage = { Scratch: scratchConcepts, Python: pythonConcepts };
 
   const displayName = slug
     .split("-")
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" ");
 
+  // Load from server (progress object)
   useEffect(() => {
-    fetch(`${API_BASE}/students/${slug}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && (data.Scratch || data.Python)) {
-          setProgress({
-            Scratch: data.Scratch || {},
-            Python: data.Python || {},
-          });
-        } else {
-          const initial = {};
-          LANGUAGES.forEach((lang) => {
-            initial[lang] = {};
-            Object.entries(conceptsByLanguage[lang]).forEach(([concept, levelMap]) => {
-              Object.entries(levelMap).forEach(([level, skill]) => {
-                if (skill) {
-                  const key = `${concept}|${level}`;
-                  initial[lang][key] = { color: "red", sessions: 0 };
-                }
-              });
+    let cancelled = false;
+    (async () => {
+      const res = await fetch(`${API_BASE}/students/${slug}`);
+      const data = await res.json();
+
+      // Build initial grid if nothing stored yet
+      let next = {};
+      if (data && (data.Scratch || data.Python)) {
+        next = { Scratch: data.Scratch || {}, Python: data.Python || {} };
+      } else {
+        const initial = {};
+        LANGUAGES.forEach((lang) => {
+          initial[lang] = {};
+          Object.entries(conceptsByLanguage[lang]).forEach(([concept, levelMap]) => {
+            Object.entries(levelMap).forEach(([level, skill]) => {
+              if (skill) {
+                const key = `${concept}|${level}`;
+                initial[lang][key] = { color: "red", sessions: 0 };
+              }
             });
           });
-          setProgress(initial);
-        }
-      });
+        });
+        next = initial;
+      }
+      if (!cancelled) {
+        setProgress(next);
+        setInitialSnapshot(next); // snapshot for “dirty” compare
+      }
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
 
-useEffect(() => {
-  if (hasInitialized.current || !progress?.Scratch || !progress?.Python) return;
+  // Determine if there are unsaved changes
+  const dirty =
+    initialSnapshot &&
+    stableStringify(progress) !== stableStringify(initialSnapshot);
 
-  const priorityOrder = [
-    ["Python", "Advanced"],
-    ["Python", "Intermediate"],
-    ["Python", "Beginner"],
-    ["Scratch", "Intermediate"],
-    ["Scratch", "Beginner"],
-  ];
+  // Warn on leave if dirty
+  useUnsavedChanges(!!dirty);
 
-  for (const [lang, level] of priorityOrder) {
-    const hasProgress = Object.entries(progress[lang]).some(([key, { color, sessions }]) => {
-      const [, lvl] = key.split("|");
-      const isMatch = level === "Beginner" ? beginnerLevels.includes(lvl) : lvl === level;
-      return isMatch && (color !== "red" || sessions > 0);
-    });
+  // Optional: ⌘S / Ctrl+S to save
+  useEffect(() => {
+    const onKey = (e) => {
+      const mac = navigator.platform.toUpperCase().includes("MAC");
+      const meta = mac ? e.metaKey : e.ctrlKey;
+      if (meta && e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        if (dirty && !saving) handleSave();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [dirty, saving]);
 
-    if (hasProgress) {
-      setActiveLanguage(lang);
-      setActiveLevel(level);
-      hasInitialized.current = true;
-      break;
+  // Choose first tab with progress
+  useEffect(() => {
+    if (hasInitialized.current || !progress?.Scratch || !progress?.Python) return;
+    const priorityOrder = [
+      ["Python", "Advanced"],
+      ["Python", "Intermediate"],
+      ["Python", "Beginner"],
+      ["Scratch", "Intermediate"],
+      ["Scratch", "Beginner"],
+    ];
+    for (const [lang, level] of priorityOrder) {
+      const hasProgress = Object.entries(progress[lang]).some(([key, { color, sessions }]) => {
+        const [, lvl] = key.split("|");
+        const isMatch = level === "Beginner" ? beginnerLevels.includes(lvl) : lvl === level;
+        return isMatch && (color !== "red" || sessions > 0);
+      });
+      if (hasProgress) {
+        setActiveLanguage(lang);
+        setActiveLevel(level);
+        hasInitialized.current = true;
+        break;
+      }
     }
-  }
-}, [progress]);
-
+  }, [progress]);
 
   useEffect(() => {
     if (activeLanguage === "Scratch" && activeLevel === "Advanced") {
@@ -971,18 +996,23 @@ useEffect(() => {
 
 
 
-  useEffect(() => {
-    if (!progress || !progress.Scratch || !progress.Python) return;
-
-    fetch(`${API_BASE}/students/${slug}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(progress),
-    });
-  }, [progress, slug]);
-  useEffect(() => {
-    document.title = `${displayName} – Progress Tracker`;
-  }, [displayName]);
+  async function handleSave() {
+    try {
+      setSaving(true);
+      const res = await fetch(`${API_BASE}/students/${slug}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(progress),
+      });
+      if (!res.ok) throw new Error(`Save failed (${res.status})`);
+      // reset baseline so changes are no longer "dirty"
+      setInitialSnapshot(progress);
+    } catch (e) {
+      alert(e.message || "Save failed");
+    } finally {
+      setSaving(false);
+    }
+  }
 
   const cycleColor = (lang, key) => {
     setProgress((prev) => {
@@ -1001,143 +1031,141 @@ useEffect(() => {
   const updateSessions = (lang, key, value) => {
     const current = progress[lang][key] || { color: "red", sessions: 0 };
     const sanitized = Math.max(0, parseInt(value) || 0);
-
     setProgress((prev) => ({
       ...prev,
       [lang]: {
         ...prev[lang],
-        [key]: {
-          ...current,
-          sessions: sanitized,
-        },
+        [key]: { ...current, sessions: sanitized },
       },
     }));
   };
 
-
   const exportToPDF = (selectedLanguages) => {
     const doc = new jsPDF();
     let y = 20;
-
     doc.setFontSize(16);
     doc.text(`${displayName} – Student Progress`, 14, y);
     y += 10;
-
     selectedLanguages.forEach((lang) => {
       doc.setFontSize(14);
       doc.text(lang, 14, y);
       y += 8;
-
       levels.forEach((level) => {
         doc.setFontSize(13);
         doc.text(level, 14, y);
         y += 7;
-
         Object.entries(conceptsByLanguage[lang]).forEach(([concept, levelsObj]) => {
           const skillEntry = levelsObj[activeLevel];
           if (!skillEntry) return null;
-
           const skill = typeof skillEntry === "string" ? skillEntry : skillEntry.skill;
-          const tooltip = typeof skillEntry === "object" && skillEntry.tooltip ? skillEntry.tooltip : null;
-
-
           const key = `${concept}|${level}`;
           const { color = "red", sessions = 0 } = progress[lang][key] || {};
-
           doc.setFontSize(11);
-          doc.text(
-            `• ${concept}: ${skill} — Progress: ${color}, Sessions: ${sessions}`,
-            16,
-            y
-          );
+          doc.text(`• ${concept}: ${skill} — Progress: ${color}, Sessions: ${sessions}`, 16, y);
           y += 6;
-
-          if (y > 270) {
-            doc.addPage();
-            y = 20;
-          }
+          if (y > 270) { doc.addPage(); y = 20; }
         });
         y += 4;
       });
     });
-
     doc.save(`${displayName.replace(/\s+/g, "_").toLowerCase()}_progress.pdf`);
   };
 
- return (
-  <div className="p-6 min-h-screen bg-gray-100 overflow-x-auto">
-    <div className="w-full max-w-screen-2xl mx-auto bg-white shadow-md rounded-lg p-6">
-      {/* Top bar with title, language and level buttons, export buttons (unchanged) */}
-      <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
-        <div className="text-xl font-bold text-gray-800">{displayName}</div>
-        <div className="flex flex-wrap items-center gap-4">
-          <div className="flex gap-2">
-            {LANGUAGES.map((lang) => (
-              <button
-                key={lang}
-                onClick={() => setActiveLanguage(lang)}
-                className={`px-4 py-1.5 rounded-full text-sm font-semibold transition border ${
-                  activeLanguage === lang
-                    ? "bg-blue-700 text-white shadow"
-                    : "bg-white text-blue-700 border-blue-600 hover:bg-blue-50"
-                }`}
-              >
-                {lang}
-              </button>
-            ))}
-          </div>
-          <div className="flex gap-2">
-            {levels
-              .filter((level) => activeLanguage !== "Scratch" || level !== "Advanced")
-              .map((level) => (
+  return (
+    <div className="p-6 min-h-screen bg-gray-100 overflow-x-auto">
+      <div className="w-full max-w-screen-2xl mx-auto bg-white shadow-md rounded-lg p-6">
+        {/* Top bar: + Save button */}
+        <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
+          <div className="text-xl font-bold text-gray-800">{displayName}</div>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex gap-2">
+              {LANGUAGES.map((lang) => (
                 <button
-                  key={level}
-                  onClick={() => setActiveLevel(level)}
-                  className={`px-3 py-1 rounded text-sm font-medium transition border ${
-                    activeLevel === level
-                      ? "bg-gray-700 text-white shadow"
-                      : "bg-white text-gray-700 border-gray-500 hover:bg-gray-100"
+                  key={lang}
+                  onClick={() => setActiveLanguage(lang)}
+                  className={`px-4 py-1.5 rounded-full text-sm font-semibold transition border ${
+                    activeLanguage === lang
+                      ? "bg-blue-700 text-white shadow"
+                      : "bg-white text-blue-700 border-blue-600 hover:bg-blue-50"
                   }`}
                 >
-                  {level}
+                  {lang}
                 </button>
               ))}
+            </div>
+            <div className="flex gap-2">
+              {levels
+                .filter((level) => activeLanguage !== "Scratch" || level !== "Advanced")
+                .map((level) => (
+                  <button
+                    key={level}
+                    onClick={() => setActiveLevel(level)}
+                    className={`px-3 py-1 rounded text-sm font-medium transition border ${
+                      activeLevel === level
+                        ? "bg-gray-700 text-white shadow"
+                        : "bg-white text-gray-700 border-gray-500 hover:bg-gray-100"
+                    }`}
+                  >
+                    {level}
+                  </button>
+                ))}
+            </div>
+          </div>
+
+          {/* Save & Export */}
+          <div className="flex gap-2 items-center">
+            <button
+              onClick={handleSave}
+              disabled={!dirty || saving}
+              className={`px-3 py-1 text-sm rounded ${
+                dirty && !saving
+                  ? "bg-emerald-600 text-white hover:bg-emerald-700"
+                  : "bg-gray-200 text-gray-600 cursor-not-allowed"
+              }`}
+              title={!dirty ? "No changes to save" : "Save changes"}
+            >
+              {saving ? "Saving…" : "Save"}
+            </button>
+
+            <button
+              onClick={() => exportToPDF(["Scratch"])}
+              className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded hover:bg-blue-200"
+            >
+              Scratch PDF
+            </button>
+            <button
+              onClick={() => exportToPDF(["Python"])}
+              className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded hover:bg-green-200"
+            >
+              Python PDF
+            </button>
+            <button
+              onClick={() => exportToPDF(["Scratch", "Python"])}
+              className="px-2 py-1 text-xs bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+            >
+              Export Both
+            </button>
           </div>
         </div>
-        <div className="flex gap-2">
-          <button
-            onClick={() => exportToPDF(["Scratch"])}
-            className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded hover:bg-blue-200"
-          >
-            Scratch PDF
-          </button>
-          <button
-            onClick={() => exportToPDF(["Python"])}
-            className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded hover:bg-green-200"
-          >
-            Python PDF
-          </button>
-          <button
-            onClick={() => exportToPDF(["Scratch", "Python"])}
-            className="px-2 py-1 text-xs bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
-          >
-            Export Both
-          </button>
-        </div>
-      </div>
 
-      {/* Legend for progress colors (unchanged) */}
-      <div className="flex justify-center gap-6 mb-4 text-sm text-gray-700">
-        <div className="flex items-center gap-2">
-          <span className="w-4 h-4 rounded-full border bg-red-500" /> Needs Work
+        {/* Legend */}
+        <div className="flex justify-center gap-6 mb-4 text-sm text-gray-700">
+          <div className="flex items-center gap-2">
+            <span className="w-4 h-4 rounded-full border bg-red-500" /> Needs Work
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-4 h-4 rounded-full border bg-yellow-400" /> In Progress
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-4 h-4 rounded-full border bg-green-500" /> Mastered
+          </div>
+          {dirty && (
+            <div className="text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1">
+              Unsaved changes
+            </div>
+          )}
         </div>
-        <div className="flex items-center gap-2">
-          <span className="w-4 h-4 rounded-full border bg-yellow-400" /> In Progress
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-4 h-4 rounded-full border bg-green-500" /> Mastered
-        </div>
-      </div>
 
       {/* Main content: Beginner view vs Intermediate vs Advanced */}
       <div className="space-y-4">
